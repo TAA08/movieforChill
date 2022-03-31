@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">movieforChill</string>
+    <string name="film_name">TextView</string>
+</resources>
