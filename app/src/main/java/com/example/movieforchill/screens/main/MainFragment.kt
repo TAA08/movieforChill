@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movieforchill.R
 import com.example.movieforchill.data.retrofit.api.RetrofitInstance
@@ -54,7 +55,9 @@ class MainFragment : Fragment() {
                         binding.rvMovies.adapter = adapter
                         adapter.onMovieClickListener = object : MainMoviesAdapter.OnMovieClickListener {
                             override fun onMovieClick(result: com.example.movieforchill.screens.main.Result) {
-                                detailFragment(result)
+                                //detailFragment(result)
+                                val action = MainFragmentDirections.actionFirstFragmentToDetailFragment(result)
+                                findNavController().navigate(action)
 
                             }
                         }
@@ -65,13 +68,13 @@ class MainFragment : Fragment() {
     }
 
 
-    private fun detailFragment(result: com.example.movieforchill.screens.main.Result) {
+ /*   private fun detailFragment(result: com.example.movieforchill.screens.main.Result) {
         requireActivity().supportFragmentManager
             .beginTransaction()
             .replace(R.id.nav_host_fragment, DetailFragment.newInstance(result))// передаём во фрагмент деталей детали одного фильма
             .addToBackStack(null)
             .commit()
-    }
+    } */
 
 }
 

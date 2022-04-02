@@ -11,7 +11,7 @@ import com.example.movieforchill.databinding.FragmentBlankBinding
 class BlankFragment : Fragment() {
 
     private lateinit var binding: FragmentBlankBinding
-    private val args: BlankFragmentArgs  by navArgs()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +24,7 @@ class BlankFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.text.text = args.data
+       // binding.text.text = args.data
     }
 
 }

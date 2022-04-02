@@ -30,22 +30,22 @@ class MainActivity : AppCompatActivity() {
 
         navController = findNavController(R.id.nav_host_fragment)
         initBottomNav()
-        initOnDestinationChangedListener()
+        //initOnDestinationChangedListener()
     }
 
-    private fun initOnDestinationChangedListener() {
+    /*private fun initOnDestinationChangedListener() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             when (destination.id) {
                 R.id.firstFragment,
                 R.id.secondFragment -> {
                     binding.bottomNavigation.visibility = View.VISIBLE
                 }
-                R.id.blankFragment -> {
+                /*R.id.blankFragment -> {
                     binding.bottomNavigation.visibility = View.GONE
-                }
+                }*/
             }
         }
-    }
+    }*/
 
     private fun initBottomNav() {
         binding.bottomNavigation.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_LABELED
