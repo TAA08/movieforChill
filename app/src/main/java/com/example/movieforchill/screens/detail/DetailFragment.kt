@@ -8,16 +8,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import com.example.movieforchill.R
+import com.example.movieforchill.data.retrofit.api.RetrofitInstance
 import com.example.movieforchill.databinding.DetailFragmentBinding
 import com.example.movieforchill.screens.main.Result
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-class DetailFragment : Fragment() {
+class DetailFragment : Fragment(), CoroutineScope {
 
     private lateinit var binding: DetailFragmentBinding
     private val args: DetailFragmentArgs by navArgs()
 
     private lateinit var result: Result
+    override val coroutineContext: CoroutineContext = Dispatchers.Main
 
     /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,28 +40,18 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        result = args.result
-        Picasso.get().load(IMAGE_URL + result.posterPath).into(binding.ivDetailIcon)
-        binding.movieTitle.text = result.title
-        binding.movieOverview.text = result.overview
-        binding.dateRelease.text = result.releaseDate
-    }
-
-    /*private fun parceMovieDetail() {
-        requireArguments().getParcelable<Result>("result")?.let {
-            result = it
+        launch {
+            result = args.result
+            var response = RetrofitInstance.getMovieDetail().getMovieDetail(id = result.id)
+            Picasso.get().load(IMAGE_URL + response.posterPath).into(binding.ivDetailIcon)
+            binding.movieTitle.text = response.title
+            binding.movieOverview.text = response.overview
+            binding.dateRelease.text = response.releaseDate
         }
-    }*/
+
+    }
 
     companion object {
         private const val IMAGE_URL = "https://image.tmdb.org/t/p/w500"
-
-        /*fun newInstance(result: Result):DetailFragment{
-            return DetailFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable("result", result)
-                }
-            }
-        */
     }
 }

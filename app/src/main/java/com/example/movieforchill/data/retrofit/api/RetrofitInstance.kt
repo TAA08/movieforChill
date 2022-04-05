@@ -16,5 +16,13 @@ object RetrofitInstance {
             .build()
         return retrofit.create(MoviesApiService::class.java)
     }
+
+    fun getMovieDetail(): MoviesApiService{
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        return retrofit.create(MoviesApiService::class.java)
+    }
 }
 
