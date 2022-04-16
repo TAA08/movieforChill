@@ -16,9 +16,6 @@ class MainViewModel : ViewModel(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main
 
-    private var oldList = mutableListOf<Result>()
-    private var newList = mutableListOf<Result>()
-
 
     private val _loadingState = MutableLiveData<State>()
     val loadingState: LiveData<State>
@@ -27,6 +24,10 @@ class MainViewModel : ViewModel(), CoroutineScope {
     private val _movies = MutableLiveData<List<Result>>()
     val movies: LiveData<List<Result>>
         get() =_movies
+
+    private val _openDetail = MutableLiveData<Result>()
+    val openDetail: LiveData<Result>
+        get() =_openDetail
 
     init {
         getPosts()
@@ -39,8 +40,8 @@ class MainViewModel : ViewModel(), CoroutineScope {
             if (response.isSuccessful){
                 _movies.value = response.body()?.results
             }
-
-            _liveData.value = State.HideLoading
+            _loadingState.value = State.HideLoading
+            _loadingState.value = State.Finish
         }
     }
 
@@ -51,17 +52,11 @@ class MainViewModel : ViewModel(), CoroutineScope {
         }
     }
 
-    val scrollList = object  : MainMoviesAdapter.OnReachEndListener{
-        override fun onReachEnd() {
-            TODO("Not yet implemented")
-        }
-
-    }
-
 
     sealed class State {
         object ShowLoading : State()
         object HideLoading : State()
-        data class Results(val list: MoviesModel) : State()
+        object Finish : State()
+
     }
 }

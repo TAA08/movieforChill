@@ -27,10 +27,6 @@ class MainFragment : Fragment(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main
 
-    private var oldList = mutableListOf<Result>()
-    private var newList = mutableListOf<Result>()
-    private var movies: MutableLiveData<List<Result>> = MutableLiveData()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,17 +38,8 @@ class MainFragment : Fragment(), CoroutineScope {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) { // в этом методе прописывается логика
         super.onViewCreated(view, savedInstanceState)
-        downloadData()
-        onScrollListener()
+        initAndObserveViewModel()
         getClick()
-        //setAdapter()
-        movies.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
-
-
-        binding.rvMovies.adapter = adapter
-
     }
 
     private fun getClick() {
@@ -68,48 +55,20 @@ class MainFragment : Fragment(), CoroutineScope {
         }
     }
 
-    private fun downloadData() {
 
-        binding.progressBar.visibility = View.VISIBLE
-        launch {
-            val result = RetrofitInstance.getPostApi().getMoviesList(page = PAGE).results
-
-            newList.clear()
-            for (movie in result) {
-                newList.add(movie)
-            }
-
-            oldList += newList
-
-            movies.postValue(oldList.toList())
-
-            binding.progressBar.visibility = View.GONE
-        }
-    }
-
-    /*private fun initAndObserveViewModel() {
+    private fun initAndObserveViewModel() {
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
-        viewModel.liveData.observe(
-            this,
-            {
-
-            }
-        )
-    }*/
-
-    private fun onScrollListener() {
-
-        adapter.onReachEndListener = object : MainMoviesAdapter.OnReachEndListener {
-            override fun onReachEnd() {
-                PAGE++
-                downloadData()
+        viewModel.loadingState.observe(viewLifecycleOwner){
+            when(it){
+                is MainViewModel.State.ShowLoading -> binding.progressBar.visibility = View.VISIBLE
+                is MainViewModel.State.HideLoading -> binding.progressBar.visibility = View.GONE
+                is MainViewModel.State.Finish -> viewModel.movies.observe(viewLifecycleOwner){
+                    adapter.submitList(it)
+                    binding.rvMovies.adapter = adapter
+                }
             }
         }
-    }
 
-    companion object {
-
-        var PAGE = 1
     }
 }

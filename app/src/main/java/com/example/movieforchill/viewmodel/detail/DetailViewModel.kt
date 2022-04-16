@@ -5,8 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.movieforchill.model.Result
 import com.example.movieforchill.model.retrofit.api.RetrofitInstance
-import com.example.movieforchill.viewmodel.main.MainViewModel
-import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,22 +14,31 @@ class DetailViewModel : ViewModel(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main
 
-    private val _liveDataDetail = MutableLiveData<StateDetail>()
-    val liveDataDetail: LiveData<StateDetail>
+    private val _liveDataDetail = MutableLiveData<Result>()
+    val liveDataDetail: LiveData<Result>
         get() = _liveDataDetail
 
+    private val _loadingState = MutableLiveData<StateDetail>()
+    val loadingState: LiveData<StateDetail>
+        get() = _loadingState
 
-    /*private fun getMovieDetails(){
+
+     fun getMovieDetails(movieId : Int){
         launch {
-            result = args.result
-            var response = RetrofitInstance.getMovieDetail().getMovieDetail(id = result.id)
+            _loadingState.value = StateDetail.ShowLoading
+            var responseMovie = RetrofitInstance.getPostApi().getMovieDetail(id = movieId)
+            if (responseMovie.isSuccessful){
+                _liveDataDetail.value = responseMovie.body()
+            }
 
+            _loadingState.value = StateDetail.HideLoading
+            _loadingState.value = StateDetail.Finish
         }
-    }*/
+    }
 
     sealed class StateDetail {
         object ShowLoading : StateDetail()
         object HideLoading : StateDetail()
-        data class ResultsDetail(val list: Result) : StateDetail()
+        object Finish : StateDetail()
     }
 }

@@ -45,67 +45,33 @@ class FavouriteFragment : Fragment(), CoroutineScope {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        downloadData()
+//        onMovieClickListener()
+//        onBackPressed()
+//
+//        data.observe(viewLifecycleOwner) {
+//            adapter.submitList(it)
+//            binding.rvFavmovies.adapter = adapter
+//        }
+//    }
 
-        downloadData()
-        onMovieClickListener()
-        onBackPressed()
-
-        data.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-            binding.rvFavmovies.adapter = adapter
-        }
-    }
-
-    private fun downloadData() {
-
-        binding.favprogressBar.visibility = View.VISIBLE
-        val sessionId = prefSettings.getString(LoginFragment.SESSION_ID_KEY, null) as String
-        if (sessionId.isNotEmpty()) {
-            launch {
-
-                data.value = RetrofitInstance.getPostApi().getFavorites(
-                    session_id = sessionId,
-                    page = PAGE
-                ).results
-                binding.favprogressBar.visibility = View.GONE
-            }
-        }
-    }
-
-    private fun onMovieClickListener() {
-
-        adapter.onMovieClickListener = object : FavouriteAdapter.OnMovieClickListener {
-
-            override fun onMovieClick(result: Result) {
-                val action = FavouriteFragmentDirections.actionFavouritesMovieFragmentToFavouriteMovieDetailFragment(result)
-                findNavController().navigate(action)
-            }
-        }
-    }
-
-
-    private fun onBackPressed() {
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-
-                launch {
-                    val sessionId =
-                        prefSettings.getString(LoginFragment.SESSION_ID_KEY, null) as String
-                    RetrofitInstance.getPostApi().deleteSession(sessionId = Session(session_id = sessionId))
-                    findNavController().popBackStack()
-                }
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-    }
-
-
-    companion object {
-
-        private var PAGE = 1
-        private var data: MutableLiveData<List<Result>> = MutableLiveData()
-    }
+//    private fun downloadData() {
+//
+//        binding.favprogressBar.visibility = View.VISIBLE
+//        val sessionId = prefSettings.getString(LoginFragment.SESSION_ID_KEY, null) as String
+//        if (sessionId.isNotEmpty()) {
+//            launch {
+//
+//                data.value = RetrofitInstance.getPostApi().getFavorites(
+//                    session_id = sessionId,
+//                    page = PAGE
+//                ).results
+//                binding.favprogressBar.visibility = View.GONE
+//            }
+//        }
+//    }
 
 }
