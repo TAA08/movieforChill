@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_main_activity"
-    app:startDestination="@id/navigation_first_fragment">
+    app:startDestination="@id/loginFragment">
 
-    <include app:graph="@navigation/first_fragment" />
-    <include app:graph="@navigation/second_fragment" />
+    <include app:graph="@navigation/films_fragment" />
+    <include app:graph="@navigation/favourites_film_fragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.movieforchill.view.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_navigation_first_fragment"
+            app:destination="@id/navigation_first_fragment" />
+    </fragment>
 
 </navigation>
