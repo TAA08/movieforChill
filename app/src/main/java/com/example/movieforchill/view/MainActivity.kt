@@ -40,6 +40,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.loginFragment -> {
                     binding.bottomNavigation.visibility = View.GONE
                 }
+                R.id.splashFragment -> {
+                    binding.bottomNavigation.visibility = View.GONE
+                }
+                R.id.viewPagerFragment -> {
+                    binding.bottomNavigation.visibility = View.GONE
+                }
             }
         }
     }

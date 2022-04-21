@@ -24,7 +24,6 @@ class DetailFragment : Fragment(), CoroutineScope {
     private val args: DetailFragmentArgs by navArgs()
     private lateinit var viewModel : DetailViewModel
 
-    private lateinit var result: Result
     override val coroutineContext: CoroutineContext = Dispatchers.Main
 
 
@@ -49,8 +48,7 @@ class DetailFragment : Fragment(), CoroutineScope {
 
 
     private fun getMovieDetails() {
-        result = args.result
-        viewModel.getMovieDetails(result.id)
+        viewModel.getMovieDetails(args.movieId)
         viewModel.loadingState.observe(viewLifecycleOwner){
             when(it){
                 is DetailViewModel.StateDetail.ShowLoading -> {

@@ -35,10 +35,12 @@ class LoginViewModel : ViewModel(), CoroutineScope {
                     password = data.password,
                     request_token = responseGet.body()?.request_token as String
                 )
-                val responseApprove = RetrofitInstance.getPostApi().approveToken(loginApprove = loginApprove)
+                val responseApprove = RetrofitInstance.getPostApi().approveToken(
+                    loginApprove = loginApprove)
                 if (responseApprove.isSuccessful) {
                     val session =
-                        RetrofitInstance.getPostApi().createSession(token = responseApprove.body() as Token)
+                        RetrofitInstance.getPostApi().createSession(
+                            token = responseApprove.body() as Token)
                     if (session.isSuccessful) {
                         _sessionId.value = session.body()?.session_id
                         _loadingState.value = LoadingState.HideLoading

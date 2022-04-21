@@ -18,10 +18,9 @@
         android:id="@+id/detailFragment"
         android:name="com.example.movieforchill.view.DetailFragment"
         tools:layout="@layout/detail_fragment">
-
         <argument
-            android:name="result"
-            app:argType="com.example.movieforchill.model.Result" />
+            android:name="movieId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

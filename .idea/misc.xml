@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/drawable-v24/ic_delivery.xml" value="0.1" />
         <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/drawable-v24/ic_home.xml" value="0.1" />
         <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/drawable-v24/ic_menu.xml" value="0.1" />
+        <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/drawable-v24/ic_splash_screen.xml" value="0.1" />
         <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/drawable-v24/selector_bottom_navigation.xml" value="0.1" />
         <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1405" />
         <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/layout/activity_main.xml" value="0.16802536231884058" />
@@ -12,7 +14,12 @@
         <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/layout/favourite_fragment.xml" value="0.23777173913043478" />
         <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/layout/fragment_blank.xml" value="0.18614130434782608" />
         <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/layout/fragment_favourite_movie_detail.xml" value="0.25416666666666665" />
+        <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/layout/fragment_first_screen.xml" value="0.25416666666666665" />
         <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/layout/fragment_login.xml" value="0.4" />
+        <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/layout/fragment_second_screen.xml" value="0.25416666666666665" />
+        <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/layout/fragment_splash.xml" value="0.25416666666666665" />
+        <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/layout/fragment_third_screen.xml" value="0.25416666666666665" />
+        <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/layout/fragment_view_pager.xml" value="0.25416666666666665" />
         <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/layout/main_fragment.xml" value="0.23777173913043478" />
         <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/layout/movies_item.xml" value="0.23052536231884058" />
         <entry key="..\:/SteamLibrary/movieforChill/app/src/main/res/layout/movies_item_binding.xml" value="0.23052536231884058" />

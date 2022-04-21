@@ -47,7 +47,7 @@ class MainFragment : Fragment(), CoroutineScope {
             binding.rvMovies.adapter = adapter
             adapter.onMovieClickListener = object : MainMoviesAdapter.OnMovieClickListener {
                 override fun onMovieClick(result: Result) {
-                    val action = MainFragmentDirections.actionFirstFragmentToDetailFragment(result)
+                    val action = MainFragmentDirections.actionFirstFragmentToDetailFragment(result.id)
                     findNavController().navigate(action)
                 }
 
