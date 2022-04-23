@@ -12,6 +12,7 @@ import com.example.movieforchill.model.retrofit.api.RetrofitInstance
 import com.example.movieforchill.databinding.MainFragmentBinding
 import com.example.movieforchill.model.Result
 import com.example.movieforchill.view.adapter.main_adapter.MainMoviesAdapter
+import com.example.movieforchill.viewmodel.ViewModelProviderFactory
 import com.example.movieforchill.viewmodel.main.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -57,7 +58,9 @@ class MainFragment : Fragment(), CoroutineScope {
 
 
     private fun initAndObserveViewModel() {
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
+        viewModel = ViewModelProvider(this, viewModelProviderFactory)[MainViewModel::class.java]
+
 
         viewModel.loadingState.observe(viewLifecycleOwner){
             when(it){

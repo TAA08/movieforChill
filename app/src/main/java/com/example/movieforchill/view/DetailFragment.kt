@@ -10,7 +10,9 @@ import androidx.navigation.fragment.navArgs
 import com.example.movieforchill.model.retrofit.api.RetrofitInstance
 import com.example.movieforchill.databinding.DetailFragmentBinding
 import com.example.movieforchill.model.Result
+import com.example.movieforchill.viewmodel.ViewModelProviderFactory
 import com.example.movieforchill.viewmodel.detail.DetailViewModel
+import com.example.movieforchill.viewmodel.main.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
@@ -43,7 +45,8 @@ class DetailFragment : Fragment(), CoroutineScope {
     }
 
     private fun initViewModel(){
-        viewModel =  ViewModelProvider(this)[DetailViewModel::class.java]
+        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
+        viewModel = ViewModelProvider(this, viewModelProviderFactory)[DetailViewModel::class.java]
     }
 
 
