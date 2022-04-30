@@ -1,12 +1,11 @@
 package com.example.movieforchill.viewmodel.login
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movieforchill.model.LoginApprove
-import com.example.movieforchill.model.Token
+import com.example.movieforchill.model.models.LoginApprove
+import com.example.movieforchill.model.models.Token
 import com.example.movieforchill.model.retrofit.api.RetrofitInstance
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,7 +39,8 @@ class LoginViewModel : ViewModel(), CoroutineScope {
                 if (responseApprove.isSuccessful) {
                     val session =
                         RetrofitInstance.getPostApi().createSession(
-                            token = responseApprove.body() as Token)
+                            token = responseApprove.body() as Token
+                        )
                     if (session.isSuccessful) {
                         _sessionId.value = session.body()?.session_id
                         _loadingState.value = LoadingState.HideLoading

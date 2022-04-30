@@ -1,6 +1,6 @@
 package com.example.movieforchill.model.retrofit.api
 
-import com.example.movieforchill.model.*
+import com.example.movieforchill.model.models.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -45,7 +45,7 @@ interface MoviesApiService { // интерфейс для создания ге�
         @Query("api_key") apiKey: String = API_KEY,
         @Query("session_id") session_id: String = SESSION_ID,
         @Body postMovie: PostMovie
-    )
+    ) : Response<Favourite>
 
     @GET("account/{account_id}/favorite/movies")
     suspend fun getFavorites(

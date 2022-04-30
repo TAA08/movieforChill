@@ -1,4 +1,4 @@
-package com.example.movieforchill.view.adapter.main_adapter
+package com.example.movieforchill.view.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieforchill.databinding.MoviesItemBinding

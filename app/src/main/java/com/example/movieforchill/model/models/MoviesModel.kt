@@ -1,4 +1,4 @@
-package com.example.movieforchill.model
+package com.example.movieforchill.model.models
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

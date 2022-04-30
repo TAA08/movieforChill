@@ -1,5 +1,7 @@
 package com.example.movieforchill.view
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,33 +9,37 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import com.example.movieforchill.model.retrofit.api.RetrofitInstance
-import com.example.movieforchill.databinding.DetailFragmentBinding
-import com.example.movieforchill.model.Result
+import com.example.movieforchill.databinding.FragmentDetailBinding
 import com.example.movieforchill.viewmodel.ViewModelProviderFactory
 import com.example.movieforchill.viewmodel.detail.DetailViewModel
-import com.example.movieforchill.viewmodel.main.MainViewModel
-import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
 class DetailFragment : Fragment(), CoroutineScope {
 
-    private lateinit var binding: DetailFragmentBinding
+    private lateinit var binding: FragmentDetailBinding
     private val args: DetailFragmentArgs by navArgs()
     private lateinit var viewModel : DetailViewModel
+    private val movieId : Int = args.movieId
+    private lateinit var prefSettings: SharedPreferences
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        prefSettings = context?.getSharedPreferences(
+            LoginFragment.APP_SETTINGS, Context.MODE_PRIVATE) as SharedPreferences
+        super.onCreate(savedInstanceState)
+    }
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DetailFragmentBinding.inflate(inflater, container, false)
+        binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -43,6 +49,12 @@ class DetailFragment : Fragment(), CoroutineScope {
         getMovieDetails()
 
     }
+    private fun getSessionId() {
+        try {
+            sessionId = prefSettings.getString(LoginFragment.SESSION_ID_KEY, null) as String
+        } catch (e: Exception) {
+        }
+    }
 
     private fun initViewModel(){
         val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
@@ -51,7 +63,7 @@ class DetailFragment : Fragment(), CoroutineScope {
 
 
     private fun getMovieDetails() {
-        viewModel.getMovieDetails(args.movieId)
+        viewModel.getMovieDetails(movieId)
         viewModel.loadingState.observe(viewLifecycleOwner){
             when(it){
                 is DetailViewModel.StateDetail.ShowLoading -> {
@@ -75,5 +87,6 @@ class DetailFragment : Fragment(), CoroutineScope {
 
     companion object {
         private const val IMAGE_URL = "https://image.tmdb.org/t/p/w500"
+        private var sessionId: String = ""
     }
 }
