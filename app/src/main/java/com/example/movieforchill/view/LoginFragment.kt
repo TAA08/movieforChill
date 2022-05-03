@@ -14,10 +14,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movieforchill.R
 import com.example.movieforchill.databinding.FragmentLoginBinding
-import com.example.movieforchill.model.models.LoginApprove
+import com.example.movieforchill.model.LoginApprove
+import com.example.movieforchill.model.Token
+import com.example.movieforchill.model.retrofit.api.RetrofitInstance
 import com.example.movieforchill.viewmodel.login.LoginViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.lang.Exception
 
 import kotlin.coroutines.CoroutineContext
@@ -26,17 +29,17 @@ class LoginFragment : Fragment(), CoroutineScope {
 
 
     private lateinit var binding: FragmentLoginBinding
-    private lateinit var viewModel: LoginViewModel
+    private lateinit var  viewModel: LoginViewModel
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main
 
-    private lateinit var settings: SharedPreferences
+    private lateinit var prefSettings: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        settings =
+        prefSettings =
             context?.getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE) as SharedPreferences
-        editor = settings.edit()
+        editor = prefSettings.edit()
         super.onCreate(savedInstanceState)
     }
 
@@ -89,7 +92,7 @@ class LoginFragment : Fragment(), CoroutineScope {
                 LoginViewModel.LoadingState.Finish -> {
                     viewModel.sessionId.observe(viewLifecycleOwner) {
                         sessionId = it
-                        putSessionIntoPref(sessionId)
+                        putDataIntoPref(sessionId)
                         try {
                             findNavController().navigate(R.id.action_loginFragment_to_navigation_first_fragment)
                         } catch (e: Exception) {
@@ -102,8 +105,8 @@ class LoginFragment : Fragment(), CoroutineScope {
     }
 
 
-    private fun putSessionIntoPref(session: String) {
-        editor.putString(SESSION_ID_KEY, session)
+    private fun putDataIntoPref(string: String) {
+        editor.putString(SESSION_ID_KEY, string)
         editor.commit()
         binding.etUsername.text = null
         binding.etPassword.text = null

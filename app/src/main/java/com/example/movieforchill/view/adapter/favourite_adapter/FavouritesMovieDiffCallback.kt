@@ -1,10 +1,10 @@
-package com.example.movieforchill.view.adapter
+package com.example.movieforchill.view.adapter.favourite_adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.movieforchill.model.models.Result
+import com.example.movieforchill.model.Result
 
 
-object MovieDiffCallback: DiffUtil.ItemCallback<Result>() {
+object FavouritesMovieDiffCallback: DiffUtil.ItemCallback<Result>() {
 
     override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
         return oldItem.id == newItem.id

@@ -4,10 +4,11 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.movieforchill.model.models.Result
+import com.example.movieforchill.model.Result
 import com.example.movieforchill.model.retrofit.api.RetrofitInstance
 import com.example.movieforchill.model.room.dao.MovieDao
-import com.example.movieforchill.model.room.database.MovieDatabase
+import com.example.movieforchill.model.room.repository.MovieDatabase
+import com.example.movieforchill.view.adapter.main_adapter.MainMoviesAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,7 +16,7 @@ import kotlinx.coroutines.withContext
 import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
-class MovieViewModel(
+class MainViewModel(
     private val context: Context
 ) : ViewModel(), CoroutineScope {
 

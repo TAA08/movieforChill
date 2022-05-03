@@ -1,10 +1,10 @@
-package com.example.movieforchill.model.room.database
+package com.example.movieforchill.model.room.repository
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.movieforchill.model.models.Result
+import com.example.movieforchill.model.Result
 import com.example.movieforchill.model.room.dao.MovieDao
 
 @Database(entities = [Result::class], version = 1)

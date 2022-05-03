@@ -1,33 +1,30 @@
-package com.example.movieforchill.view.adapter
+package com.example.movieforchill.view.adapter.favourite_adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.movieforchill.databinding.MoviesItemBinding
-import com.example.movieforchill.model.models.Result
+import com.example.movieforchill.model.Result
 import com.squareup.picasso.Picasso
 
-
-class MainMoviesAdapter: ListAdapter<Result, MainMoviesViewHolder>(MovieDiffCallback) {
+class FavouriteAdapter : ListAdapter<Result, FavouritesMoviesViewHolder>(FavouritesMovieDiffCallback) {
 
 
     private val IMAGE_URL = "https://image.tmdb.org/t/p/w500"
     var onMovieClickListener: OnMovieClickListener? = null
-    var onReachEndListener: OnReachEndListener? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainMoviesViewHolder {
-        return MainMoviesViewHolder(
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouritesMoviesViewHolder {
+        return FavouritesMoviesViewHolder(
             MoviesItemBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )
     }
 
-    override fun onBindViewHolder(holder: MainMoviesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FavouritesMoviesViewHolder, position: Int) {
         val movie = getItem(position)
-        if (position >= (itemCount - 3) && onReachEndListener != null) {
-            onReachEndListener?.onReachEnd()
-        }
+
         with(holder.binding) {
             movieTitle.text = movie.title
             Picasso.get().load(IMAGE_URL+movie.posterPath).into(movieImage)
@@ -44,10 +41,4 @@ class MainMoviesAdapter: ListAdapter<Result, MainMoviesViewHolder>(MovieDiffCall
         fun onMovieClick(result: Result)
     }
 
-    interface OnReachEndListener {
-        fun onReachEnd()
-    }
-
 }
-
-

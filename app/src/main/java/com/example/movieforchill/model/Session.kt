@@ -1,4 +1,4 @@
-package com.example.movieforchill.model.models
+package com.example.movieforchill.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
@@ -7,6 +7,9 @@ import kotlinx.parcelize.Parcelize
 
 data class Session(
 
+//    @SerializedName("success")
+//    @Expose
+//    val success: Boolean,
     @SerializedName("session_id")
     @Expose
     var session_id: String = ""

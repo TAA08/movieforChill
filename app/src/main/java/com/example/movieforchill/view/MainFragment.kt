@@ -1,27 +1,29 @@
 package com.example.movieforchill.view
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.movieforchill.databinding.FragmentMovieBinding
-import com.example.movieforchill.model.models.Result
-import com.example.movieforchill.view.adapter.MainMoviesAdapter
+import com.example.movieforchill.model.retrofit.api.RetrofitInstance
+import com.example.movieforchill.databinding.MainFragmentBinding
+import com.example.movieforchill.model.Result
+import com.example.movieforchill.view.adapter.main_adapter.MainMoviesAdapter
 import com.example.movieforchill.viewmodel.ViewModelProviderFactory
-import com.example.movieforchill.viewmodel.main.MovieViewModel
+import com.example.movieforchill.viewmodel.main.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class MovieFragment : Fragment(), CoroutineScope {
+class MainFragment : Fragment(), CoroutineScope {
 
 
-    private lateinit var binding: FragmentMovieBinding
-    private lateinit var viewModel: MovieViewModel
+    private lateinit var binding: MainFragmentBinding
+    private lateinit var viewModel: MainViewModel
     private val adapter = MainMoviesAdapter()
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main
@@ -31,7 +33,7 @@ class MovieFragment : Fragment(), CoroutineScope {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMovieBinding.inflate(inflater, container, false)
+        binding = MainFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -46,7 +48,7 @@ class MovieFragment : Fragment(), CoroutineScope {
             binding.rvMovies.adapter = adapter
             adapter.onMovieClickListener = object : MainMoviesAdapter.OnMovieClickListener {
                 override fun onMovieClick(result: Result) {
-                    val action = MovieFragmentDirections.actionFilmsFragmentToDetailFragment(result.id)
+                    val action = MainFragmentDirections.actionFirstFragmentToDetailFragment(result.id)
                     findNavController().navigate(action)
                 }
 
@@ -57,14 +59,14 @@ class MovieFragment : Fragment(), CoroutineScope {
 
     private fun initAndObserveViewModel() {
         val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
-        viewModel = ViewModelProvider(this, viewModelProviderFactory)[MovieViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelProviderFactory)[MainViewModel::class.java]
 
 
         viewModel.loadingState.observe(viewLifecycleOwner){
             when(it){
-                is MovieViewModel.State.ShowLoading -> binding.progressBar.visibility = View.VISIBLE
-                is MovieViewModel.State.HideLoading -> binding.progressBar.visibility = View.GONE
-                is MovieViewModel.State.Finish -> viewModel.movies.observe(viewLifecycleOwner){
+                is MainViewModel.State.ShowLoading -> binding.progressBar.visibility = View.VISIBLE
+                is MainViewModel.State.HideLoading -> binding.progressBar.visibility = View.GONE
+                is MainViewModel.State.Finish -> viewModel.movies.observe(viewLifecycleOwner){
                     adapter.submitList(it)
                     binding.rvMovies.adapter = adapter
                 }
