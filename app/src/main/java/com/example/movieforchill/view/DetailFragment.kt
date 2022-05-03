@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.example.movieforchill.R
 import com.example.movieforchill.databinding.FragmentDetailBinding
 import com.example.movieforchill.viewmodel.ViewModelProviderFactory
 import com.example.movieforchill.viewmodel.detail.DetailViewModel
@@ -45,8 +46,11 @@ class DetailFragment : Fragment(), CoroutineScope {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getSessionId()
         initViewModel()
         getMovieDetails()
+        setOnClickFavourites()
+        setLike()
 
     }
     private fun getSessionId() {
@@ -58,7 +62,26 @@ class DetailFragment : Fragment(), CoroutineScope {
 
     private fun initViewModel(){
         val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
-        viewModel = ViewModelProvider(this, viewModelProviderFactory)[DetailViewModel::class.java]
+        viewModel = ViewModelProvider(
+            this, viewModelProviderFactory)[DetailViewModel::class.java]
+    }
+
+    private fun setOnClickFavourites() {
+
+        binding.ivFavIcon.setOnClickListener {
+            viewModel.addOrDeleteFavorite(movieId , sessionId)
+        }
+    }
+
+    private fun setLike(){
+        viewModel.liveDataDetail.observe(viewLifecycleOwner){
+
+            if (it.favouriteState == true) {
+                binding.ivFavIcon.setImageResource(R.drawable.ic_baseline_like)
+            } else {
+                binding.ivFavIcon.setImageResource(R.drawable.ic_baseline_not_like)
+            }
+        }
     }
 
 

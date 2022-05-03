@@ -22,11 +22,6 @@
             android:name="movieId"
             app:argType="integer" />
     </fragment>
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.movieforchill.view.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
 
 
 </navigation>

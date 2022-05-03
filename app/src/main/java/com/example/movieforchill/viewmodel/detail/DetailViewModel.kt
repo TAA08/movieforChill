@@ -56,42 +56,17 @@ class DetailViewModel(
         }
     }
 
-    fun addFavorite(movieId: Int, sessionId: String) {
+
+    fun addOrDeleteFavorite(movieId: Int, sessionId: String) {
         launch {
-            val postMovie = PostMovie(media_id = movieId, favorite = true)
-            val response = RetrofitInstance.getPostApi().addFavorite(
-                session_id = sessionId,
-                postMovie = postMovie
-            )
-            val movie = movieDao.getMovieById(movieId)
-            val newMovie = movie.copy()
-
-            var loadingState = if (response.isSuccessful) {
-                LoadingState.SUCCESS
-            } else {
-                LoadingState.FINISHED
+            val favouriteState = withContext(Dispatchers.IO) {
+                val movie = movieDao.getMovieById(movieId)
+                val newMovie = movie.copy(favouriteState = !movie.favouriteState)
+                movieDao.updateState(newMovie)
+                newMovie
             }
-            _addFavoriteState.value = loadingState
-            _addFavoriteState.value = LoadingState.IS_LOADING
-
-        }
-    }
-
-    fun deleteFavorite(movieId: Int, sessionId: String) {
-        launch {
-            val postMovie = PostMovie(media_id = movieId, favorite = false)
-            val response = RetrofitInstance.getPostApi().addFavorite(
-                session_id = sessionId,
-                postMovie = postMovie
-            )
-            var loadingState = if (response.isSuccessful) {
-                LoadingState.SUCCESS
-            } else {
-                LoadingState.FINISHED
-            }
-            _addFavoriteState.value = loadingState
-            _addFavoriteState.value = LoadingState.IS_LOADING
-
+            val postMovie = PostMovie(media_id = movieId, favorite = favouriteState.favouriteState)
+            RetrofitInstance.getPostApi().addFavorite(session_id = sessionId, postMovie = postMovie)
         }
     }
 
