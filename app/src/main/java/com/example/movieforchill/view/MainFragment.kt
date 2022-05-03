@@ -5,15 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.movieforchill.model.retrofit.api.RetrofitInstance
 import com.example.movieforchill.databinding.MainFragmentBinding
 import com.example.movieforchill.model.Result
-import com.example.movieforchill.view.adapter.main_adapter.MainMoviesAdapter
+import com.example.movieforchill.view.adapter.MainMoviesAdapter
 import com.example.movieforchill.viewmodel.ViewModelProviderFactory
-import com.example.movieforchill.viewmodel.main.MainViewModel
+import com.example.movieforchill.viewmodel.main.MovieViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +21,7 @@ class MainFragment : Fragment(), CoroutineScope {
 
 
     private lateinit var binding: MainFragmentBinding
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: MovieViewModel
     private val adapter = MainMoviesAdapter()
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main
@@ -59,14 +57,14 @@ class MainFragment : Fragment(), CoroutineScope {
 
     private fun initAndObserveViewModel() {
         val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
-        viewModel = ViewModelProvider(this, viewModelProviderFactory)[MainViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelProviderFactory)[MovieViewModel::class.java]
 
 
         viewModel.loadingState.observe(viewLifecycleOwner){
             when(it){
-                is MainViewModel.State.ShowLoading -> binding.progressBar.visibility = View.VISIBLE
-                is MainViewModel.State.HideLoading -> binding.progressBar.visibility = View.GONE
-                is MainViewModel.State.Finish -> viewModel.movies.observe(viewLifecycleOwner){
+                is MovieViewModel.State.ShowLoading -> binding.progressBar.visibility = View.VISIBLE
+                is MovieViewModel.State.HideLoading -> binding.progressBar.visibility = View.GONE
+                is MovieViewModel.State.Finish -> viewModel.movies.observe(viewLifecycleOwner){
                     adapter.submitList(it)
                     binding.rvMovies.adapter = adapter
                 }

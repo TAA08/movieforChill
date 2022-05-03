@@ -8,7 +8,6 @@ import com.example.movieforchill.model.Result
 import com.example.movieforchill.model.retrofit.api.RetrofitInstance
 import com.example.movieforchill.model.room.dao.MovieDao
 import com.example.movieforchill.model.room.repository.MovieDatabase
-import com.example.movieforchill.view.adapter.main_adapter.MainMoviesAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,7 +15,7 @@ import kotlinx.coroutines.withContext
 import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
-class MainViewModel(
+class MovieViewModel(
     private val context: Context
 ) : ViewModel(), CoroutineScope {
 
