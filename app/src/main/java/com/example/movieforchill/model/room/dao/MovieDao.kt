@@ -1,9 +1,6 @@
 package com.example.movieforchill.model.room.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.movieforchill.model.Result
 
 @Dao
@@ -18,6 +15,6 @@ interface MovieDao {
     @Query("SELECT * FROM popular_movie_table WHERE id == :movieId")
     fun getMovieById(movieId : Int): Result
 
-//    @Query("SELECT * FROM popular_movie_table WHERE id = true")
-//    fun getFavouriteMovie(movieId : Int): Result
+    @Update
+    suspend fun updateState(movie : Result)
 }
