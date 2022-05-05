@@ -39,6 +39,9 @@ class LoginFragment : Fragment(), CoroutineScope {
     override fun onCreate(savedInstanceState: Bundle?) {
         prefSettings =
             context?.getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE) as SharedPreferences
+        if(prefSettings.getString(SESSION_ID_KEY  , null ) != null){
+            findNavController().navigate(R.id.action_loginFragment_to_navigation_first_fragment)
+        }
         editor = prefSettings.edit()
         super.onCreate(savedInstanceState)
     }
@@ -94,7 +97,8 @@ class LoginFragment : Fragment(), CoroutineScope {
                         sessionId = it
                         putDataIntoPref(sessionId)
                         try {
-                            findNavController().navigate(R.id.action_loginFragment_to_navigation_first_fragment)
+                            findNavController().navigate(
+                                R.id.action_loginFragment_to_navigation_first_fragment)
                         } catch (e: Exception) {
                         }
                     }

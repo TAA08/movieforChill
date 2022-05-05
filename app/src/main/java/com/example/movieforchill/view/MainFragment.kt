@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movieforchill.databinding.MainFragmentBinding
@@ -39,6 +41,7 @@ class MainFragment : Fragment(), CoroutineScope {
         super.onViewCreated(view, savedInstanceState)
         initAndObserveViewModel()
         getClick()
+        onBackPressed()
     }
 
     private fun getClick() {
@@ -71,5 +74,26 @@ class MainFragment : Fragment(), CoroutineScope {
             }
         }
 
+    }
+
+    private fun onBackPressed() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+
+                requireContext().let {
+                    AlertDialog
+                        .Builder(it)
+                        .setMessage("Выйти?")
+                        .setPositiveButton("Да") { dialogInterface, i ->
+                            requireActivity().finish()
+                        }
+                        .setNegativeButton("Нет") { dialogInterface, i -> }
+                        .create()
+                        .show()
+                }
+
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 }
