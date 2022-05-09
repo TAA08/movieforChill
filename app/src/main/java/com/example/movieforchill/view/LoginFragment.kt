@@ -4,32 +4,27 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movieforchill.R
 import com.example.movieforchill.databinding.FragmentLoginBinding
 import com.example.movieforchill.model.LoginApprove
-import com.example.movieforchill.model.Token
-import com.example.movieforchill.model.retrofit.api.RetrofitInstance
 import com.example.movieforchill.viewmodel.login.LoginViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.lang.Exception
-
 import kotlin.coroutines.CoroutineContext
 
 class LoginFragment : Fragment(), CoroutineScope {
 
 
     private lateinit var binding: FragmentLoginBinding
-    private lateinit var  viewModel: LoginViewModel
+    private lateinit var viewModel: LoginViewModel
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main
 
@@ -39,7 +34,7 @@ class LoginFragment : Fragment(), CoroutineScope {
     override fun onCreate(savedInstanceState: Bundle?) {
         prefSettings =
             context?.getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE) as SharedPreferences
-        if(prefSettings.getString(SESSION_ID_KEY  , null ) != null){
+        if (prefSettings.getString(SESSION_ID_KEY, null) != null) {
             findNavController().navigate(R.id.action_loginFragment_to_navigation_first_fragment)
         }
         editor = prefSettings.edit()
@@ -49,7 +44,7 @@ class LoginFragment : Fragment(), CoroutineScope {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -90,7 +85,8 @@ class LoginFragment : Fragment(), CoroutineScope {
     private fun observeLoadingState() {
         viewModel.loadingState.observe(viewLifecycleOwner) {
             when (it) {
-                LoginViewModel.LoadingState.ShowLoading-> binding.pbLoading.visibility = View.VISIBLE
+                LoginViewModel.LoadingState.ShowLoading -> binding.pbLoading.visibility =
+                    View.VISIBLE
                 LoginViewModel.LoadingState.HideLoading -> binding.pbLoading.visibility = View.GONE
                 LoginViewModel.LoadingState.Finish -> {
                     viewModel.sessionId.observe(viewLifecycleOwner) {
@@ -98,7 +94,8 @@ class LoginFragment : Fragment(), CoroutineScope {
                         putDataIntoPref(sessionId)
                         try {
                             findNavController().navigate(
-                                R.id.action_loginFragment_to_navigation_first_fragment)
+                                R.id.action_loginFragment_to_navigation_first_fragment
+                            )
                         } catch (e: Exception) {
                         }
                     }

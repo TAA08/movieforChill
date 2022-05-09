@@ -10,4 +10,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="logout">logout</string>
+    <string name="password">Пароль</string>
+    <string name="login">Логин</string>
+    <string name="autorisation">Авторизация</string>
+    <string name="movie_poster">movie_poster</string>
+    <string name="movie">Топ фильмов</string>
+    <string name="favourite_movie">Любимые фильмы</string>
+    <string name="movie_detail">детали</string>
 </resources>

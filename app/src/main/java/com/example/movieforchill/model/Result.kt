@@ -29,5 +29,5 @@ data class Result(
     val voteAverage: Double,
     @SerializedName("vote_count")
     val voteCount: Int,
-    var favouriteState : Boolean = false
+    var favouriteState: Boolean = false
 ) : Parcelable

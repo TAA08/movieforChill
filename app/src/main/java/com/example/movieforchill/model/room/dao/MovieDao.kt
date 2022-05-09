@@ -13,8 +13,11 @@ interface MovieDao {
     fun getAll(): List<Result>
 
     @Query("SELECT * FROM popular_movie_table WHERE id == :movieId")
-    fun getMovieById(movieId : Int): Result
+    fun getMovieById(movieId: Int): Result
+
+    @Query("SELECT ALL * FROM popular_movie_table WHERE favouriteState == 1 ")
+    fun getFavouriteMovies(): List<Result>
 
     @Update
-    suspend fun updateState(movie : Result)
+    suspend fun updateState(movie: Result)
 }

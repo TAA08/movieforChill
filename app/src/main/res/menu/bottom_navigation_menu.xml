@@ -6,13 +6,13 @@
         android:id="@+id/navigation_first_fragment"
         android:enabled="true"
         android:icon="@drawable/ic_home"
-        android:title="Топ фильмов"
+        android:title="@string/movie"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/navigation_second_fragment"
         android:enabled="true"
         android:icon="@drawable/ic_menu"
-        android:title="Любимые фильмы"
-        app:showAsAction="always" />
+        android:title="@string/favourite_movie"
+        app:showAsAction="ifRoom" />
 </menu>

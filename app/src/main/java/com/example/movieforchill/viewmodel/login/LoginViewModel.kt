@@ -1,6 +1,5 @@
 package com.example.movieforchill.viewmodel.login
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -36,11 +35,13 @@ class LoginViewModel : ViewModel(), CoroutineScope {
                     request_token = responseGet.body()?.request_token as String
                 )
                 val responseApprove = RetrofitInstance.getPostApi().approveToken(
-                    loginApprove = loginApprove)
+                    loginApprove = loginApprove
+                )
                 if (responseApprove.isSuccessful) {
                     val session =
                         RetrofitInstance.getPostApi().createSession(
-                            token = responseApprove.body() as Token)
+                            token = responseApprove.body() as Token
+                        )
                     if (session.isSuccessful) {
                         _sessionId.value = session.body()?.session_id
                         _loadingState.value = LoadingState.HideLoading
@@ -55,9 +56,9 @@ class LoginViewModel : ViewModel(), CoroutineScope {
 
 
     sealed class LoadingState {
-        object ShowLoading :  LoadingState()
-        object HideLoading :  LoadingState()
-        object Finish :  LoadingState()
+        object ShowLoading : LoadingState()
+        object HideLoading : LoadingState()
+        object Finish : LoadingState()
     }
 
 }

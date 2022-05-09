@@ -1,6 +1,7 @@
 package com.example.movieforchill.viewmodel.detail
 
 import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -35,12 +36,29 @@ class DetailViewModel(
     }
 
 
-    fun getMovieDetails(movieId: Int) {
+    fun getMovieDetails(movieId: Int, sessionId: String?) {
         launch {
             _loadingState.value = StateDetail.ShowLoading
             val list = withContext(Dispatchers.IO) {
-                var result = movieDao.getMovieById(movieId)
-                result
+                try {
+                    val result = movieDao.getMovieById(movieId)
+                    if (sessionId != null) {
+                        val response = RetrofitInstance.getPostApi().getMovieStates(
+                            movieId,
+                            session_id = sessionId
+                        )
+                        if (response.isSuccessful) {
+                            val favouriteState = response.body()?.favorite as Boolean
+
+                            result.favouriteState = favouriteState
+
+                        }
+                    }
+                    movieDao.updateState(result)
+                    result
+                } catch (e: Exception) {
+                    movieDao.getMovieById(movieId)
+                }
             }
 
             _liveDataDetail.value = list
@@ -60,8 +78,21 @@ class DetailViewModel(
                 newMovie
             }
             _liveDataDetail.value = favouriteState
-            val postMovie = PostMovie(media_id = movieId, favorite = favouriteState.favouriteState)
-            RetrofitInstance.getPostApi().addFavorite(session_id = sessionId, postMovie = postMovie)
+            try {
+                val postMovie = PostMovie(
+                    media_id = movieId, favorite = favouriteState.favouriteState
+                )
+                RetrofitInstance.getPostApi().addFavorite(
+                    session_id = sessionId, postMovie = postMovie
+                )
+            } catch (e: Exception) {
+                Toast.makeText(
+                    context,
+                    "Нет подключение к интернету",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
         }
     }
 

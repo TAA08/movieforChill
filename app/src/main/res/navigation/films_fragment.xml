@@ -8,6 +8,7 @@
     <fragment
         android:id="@+id/filmsFragment"
         android:name="com.example.movieforchill.view.MainFragment"
+        android:label="@string/movie"
         tools:layout="@layout/main_fragment">
         <action
             android:id="@+id/action_firstFragment_to_detailFragment"
@@ -22,6 +23,7 @@
             android:name="movieId"
             app:argType="integer" />
     </fragment>
+    <action android:id="@+id/action_global_filmsFragment" app:destination="@id/filmsFragment" />
 
 
 </navigation>

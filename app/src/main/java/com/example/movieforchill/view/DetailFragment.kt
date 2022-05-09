@@ -39,7 +39,7 @@ class DetailFragment : Fragment(), CoroutineScope {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DetailFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -77,7 +77,7 @@ class DetailFragment : Fragment(), CoroutineScope {
     private fun setLike() {
         viewModel.liveDataDetail.observe(viewLifecycleOwner) {
 
-            if (it.favouriteState == true) {
+            if (it.favouriteState) {
                 binding.ivFavIcon.setImageResource(R.drawable.ic_baseline_like)
             } else {
                 binding.ivFavIcon.setImageResource(R.drawable.ic_baseline_not_like)
@@ -87,8 +87,8 @@ class DetailFragment : Fragment(), CoroutineScope {
 
 
     private fun getMovieDetails() {
-        viewModel.getMovieDetails(args.movieId)
-        viewModel.loadingState.observe(viewLifecycleOwner) {
+        viewModel.getMovieDetails(args.movieId, sessionId)
+        viewModel.loadingState.observe(viewLifecycleOwner) { it ->
             when (it) {
                 is DetailViewModel.StateDetail.ShowLoading -> {
                     binding.progressBar.visibility = View.VISIBLE

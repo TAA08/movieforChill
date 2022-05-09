@@ -37,7 +37,10 @@ class MainFragment : Fragment(), CoroutineScope {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) { // в этом методе прописывается логика
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) { // в этом методе прописывается логика
         super.onViewCreated(view, savedInstanceState)
         initAndObserveViewModel()
         getClick()
@@ -49,7 +52,8 @@ class MainFragment : Fragment(), CoroutineScope {
             binding.rvMovies.adapter = adapter
             adapter.onMovieClickListener = object : MainMoviesAdapter.OnMovieClickListener {
                 override fun onMovieClick(result: Result) {
-                    val action = MainFragmentDirections.actionFirstFragmentToDetailFragment(result.id)
+                    val action =
+                        MainFragmentDirections.actionFirstFragmentToDetailFragment(result.id)
                     findNavController().navigate(action)
                 }
 
@@ -63,11 +67,11 @@ class MainFragment : Fragment(), CoroutineScope {
         viewModel = ViewModelProvider(this, viewModelProviderFactory)[MovieViewModel::class.java]
 
 
-        viewModel.loadingState.observe(viewLifecycleOwner){
-            when(it){
+        viewModel.loadingState.observe(viewLifecycleOwner) {
+            when (it) {
                 is MovieViewModel.State.ShowLoading -> binding.progressBar.visibility = View.VISIBLE
                 is MovieViewModel.State.HideLoading -> binding.progressBar.visibility = View.GONE
-                is MovieViewModel.State.Finish -> viewModel.movies.observe(viewLifecycleOwner){
+                is MovieViewModel.State.Finish -> viewModel.movies.observe(viewLifecycleOwner) {
                     adapter.submitList(it)
                     binding.rvMovies.adapter = adapter
                 }

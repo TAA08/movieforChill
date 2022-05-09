@@ -8,6 +8,7 @@ import com.example.movieforchill.model.Result
 import com.example.movieforchill.model.retrofit.api.RetrofitInstance
 import com.example.movieforchill.model.room.dao.MovieDao
 import com.example.movieforchill.model.room.repository.MovieDatabase
+import com.example.movieforchill.view.MainActivity.Companion.isFirstDownloaded
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,10 +32,6 @@ class MovieViewModel(
     val movies: MutableLiveData<List<Result>?>
         get() = _movies
 
-    private val _openDetail = MutableLiveData<Result>()
-    val openDetail: LiveData<Result>
-        get() = _openDetail
-
     init {
         getPosts()
         movieDao = MovieDatabase.getDatabase(context).movieDao()
@@ -46,7 +43,11 @@ class MovieViewModel(
             val list = withContext(Dispatchers.IO) {
                 try {
                     val response = RetrofitInstance.getPostApi().getMoviesList()
-                    if (response.isSuccessful) {
+                    if (response.isSuccessful && isFirstDownloaded) {
+
+                        isFirstDownloaded = false
+
+
                         val result = response.body()?.results
                         if (!result.isNullOrEmpty()) {
                             movieDao.insertAll(result)

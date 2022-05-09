@@ -8,12 +8,11 @@ import com.example.movieforchill.model.Result
 import com.squareup.picasso.Picasso
 
 
-class MainMoviesAdapter: ListAdapter<Result, MainMoviesViewHolder>(MovieDiffCallback) {
+class MainMoviesAdapter : ListAdapter<Result, MainMoviesViewHolder>(MovieDiffCallback) {
 
 
-    private val IMAGE_URL = "https://image.tmdb.org/t/p/w500"
     var onMovieClickListener: OnMovieClickListener? = null
-    var onReachEndListener: OnReachEndListener? = null
+    private var onReachEndListener: OnReachEndListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainMoviesViewHolder {
         return MainMoviesViewHolder(
@@ -30,11 +29,11 @@ class MainMoviesAdapter: ListAdapter<Result, MainMoviesViewHolder>(MovieDiffCall
         }
         with(holder.binding) {
             movieTitle.text = movie.title
-            Picasso.get().load(IMAGE_URL+movie.posterPath).into(movieImage)
+            Picasso.get().load(IMAGE_URL + movie.posterPath).into(movieImage)
 
             root.setOnClickListener {
                 onMovieClickListener?.onMovieClick(movie)// передаём все сведения о фильме при клике на постер
-                true // нужно для перехода в детали фильма при клике на постер с фильмом
+
             }
         }
     }
@@ -46,6 +45,10 @@ class MainMoviesAdapter: ListAdapter<Result, MainMoviesViewHolder>(MovieDiffCall
 
     interface OnReachEndListener {
         fun onReachEnd()
+    }
+
+    companion object {
+        private const val IMAGE_URL = "https://image.tmdb.org/t/p/w500"
     }
 
 }

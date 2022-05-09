@@ -33,14 +33,15 @@ class FavouriteFragment : Fragment(), CoroutineScope {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         prefSettings = context?.getSharedPreferences(
-            LoginFragment.APP_SETTINGS, Context.MODE_PRIVATE) as SharedPreferences
+            LoginFragment.APP_SETTINGS, Context.MODE_PRIVATE
+        ) as SharedPreferences
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FavouriteFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -64,13 +65,15 @@ class FavouriteFragment : Fragment(), CoroutineScope {
     private fun initAndObserveViewModel() {
         val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
         viewModel = ViewModelProvider(
-            this, viewModelProviderFactory)[FavouriteViewModel::class.java]
+            this, viewModelProviderFactory
+        )[FavouriteViewModel::class.java]
 
-        viewModel.loadingState.observe(viewLifecycleOwner){
-            when(it){
-                is MovieViewModel.State.ShowLoading -> binding.favprogressBar.visibility = View.VISIBLE
+        viewModel.loadingState.observe(viewLifecycleOwner) {
+            when (it) {
+                is MovieViewModel.State.ShowLoading -> binding.favprogressBar.visibility =
+                    View.VISIBLE
                 is MovieViewModel.State.HideLoading -> binding.favprogressBar.visibility = View.GONE
-                is MovieViewModel.State.Finish -> viewModel.movies.observe(viewLifecycleOwner){
+                is MovieViewModel.State.Finish -> viewModel.movies.observe(viewLifecycleOwner) {
                     adapter.submitList(it)
                     binding.rvFavmovies.adapter = adapter
                 }
@@ -84,7 +87,10 @@ class FavouriteFragment : Fragment(), CoroutineScope {
             binding.rvFavmovies.adapter = adapter
             adapter.onMovieClickListener = object : MainMoviesAdapter.OnMovieClickListener {
                 override fun onMovieClick(result: Result) {
-                    val action = FavouriteFragmentDirections.actionFavouritesMovieFragmentToDetailFragment(result.id)
+                    val action =
+                        FavouriteFragmentDirections.actionFavouritesMovieFragmentToDetailFragment(
+                            result.id
+                        )
                     findNavController().navigate(action)
                 }
 
@@ -96,7 +102,6 @@ class FavouriteFragment : Fragment(), CoroutineScope {
 
         private var sessionId: String = ""
     }
-
 
 
 }

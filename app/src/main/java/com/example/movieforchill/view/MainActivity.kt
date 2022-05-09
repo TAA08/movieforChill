@@ -2,16 +2,18 @@ package com.example.movieforchill.view
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.movieforchill.R
 import com.example.movieforchill.databinding.ActivityMainBinding
@@ -36,11 +38,20 @@ class MainActivity : AppCompatActivity() {
         ) as SharedPreferences
         editor = prefSettings.edit()
 
-        navController = findNavController(R.id.nav_host_fragment)
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.findNavController()
+
+//        navController = findNavController(R.id.nav_host_fragment)
         init()
         bottomBarVisibility()
         initBottomNav()
+
+
+//        setSupportActionBar(binding.toolbar)
+        setupActionBarWithNavController(navController)
     }
+
     private fun init() {
 
         viewModel = ViewModelProvider(
@@ -49,27 +60,37 @@ class MainActivity : AppCompatActivity() {
         )[MainViewModel::class.java]
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
     private fun bottomBarVisibility() {
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.filmsFragment -> {
                     binding.bottomNavigation.visibility = View.VISIBLE
+                    binding.toolbar.visibility = View.VISIBLE
                 }
                 R.id.favouritesMovieFragment -> {
                     binding.bottomNavigation.visibility = View.VISIBLE
+                    binding.toolbar.visibility = View.VISIBLE
                 }
                 R.id.detailFragment -> {
                     binding.bottomNavigation.visibility = View.GONE
-
+                    binding.toolbar.visibility = View.GONE
                 }
                 R.id.loginFragment -> {
                     binding.bottomNavigation.visibility = View.GONE
+                    binding.toolbar.visibility = View.GONE
                 }
                 R.id.splashFragment -> {
                     binding.bottomNavigation.visibility = View.GONE
+                    binding.toolbar.visibility = View.GONE
+                    R.id.logout
                 }
                 R.id.viewPagerFragment -> {
                     binding.bottomNavigation.visibility = View.GONE
+                    binding.toolbar.visibility = View.GONE
                 }
             }
         }
@@ -81,20 +102,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.logout ->{
+        when (item.itemId) {
+            R.id.logout -> {
                 AlertDialog
                     .Builder(this)
-                    .setMessage("Выйти?")
-                    .setPositiveButton("Да") { dialogInterface, i ->
+                    .setMessage("Выйти из аккаунта?")
+                    .setPositiveButton("Да") { _, _ ->
 
                         viewModel.deleteSession()
                         editor.clear().commit()
-                        navController.popBackStack(R.id.loginFragment, true )
+                        navController.popBackStack(R.id.loginFragment, true)
                         navController.navigate(R.id.loginFragment)
 
                     }
-                    .setNegativeButton("Нет") { dialogInterface, i -> }
+                    .setNegativeButton("Нет") { _, _ -> }
                     .create()
                     .show()
             }
@@ -107,7 +128,9 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setupWithNavController(navController)
     }
 
-
+    companion object {
+        var isFirstDownloaded = true
+    }
 
 
 }
