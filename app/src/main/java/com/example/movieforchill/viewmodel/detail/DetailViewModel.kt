@@ -1,15 +1,15 @@
 package com.example.movieforchill.viewmodel.detail
 
+import android.app.Application
 import android.content.Context
 import android.widget.Toast
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.example.movieforchill.model.PostMovie
 import com.example.movieforchill.model.Result
 import com.example.movieforchill.model.retrofit.api.RetrofitInstance
 import com.example.movieforchill.model.room.dao.MovieDao
 import com.example.movieforchill.model.room.repository.MovieDatabase
+import com.example.movieforchill.model.room.repository.MovieRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,11 +17,11 @@ import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 class DetailViewModel(
-    private val context: Context
-) : ViewModel(), CoroutineScope {
+    application: Application
+) : AndroidViewModel(application) {
 
-    override val coroutineContext: CoroutineContext = Dispatchers.Main
-    private val movieDao: MovieDao
+    var repository = MovieRepository(application)
+
 
     private val _liveDataDetail = MutableLiveData<Result>()
     val liveDataDetail: LiveData<Result>
@@ -31,37 +31,13 @@ class DetailViewModel(
     val loadingState: LiveData<StateDetail>
         get() = _loadingState
 
-    init {
-        movieDao = MovieDatabase.getDatabase(context).movieDao()
-    }
-
 
     fun getMovieDetails(movieId: Int, sessionId: String?) {
-        launch {
+        viewModelScope.launch {
             _loadingState.value = StateDetail.ShowLoading
-            val list = withContext(Dispatchers.IO) {
-                try {
-                    val result = movieDao.getMovieById(movieId)
-                    if (sessionId != null) {
-                        val response = RetrofitInstance.getPostApi().getMovieStates(
-                            movieId,
-                            session_id = sessionId
-                        )
-                        if (response.isSuccessful) {
-                            val favouriteState = response.body()?.favorite as Boolean
 
-                            result.favouriteState = favouriteState
 
-                        }
-                    }
-                    movieDao.updateState(result)
-                    result
-                } catch (e: Exception) {
-                    movieDao.getMovieById(movieId)
-                }
-            }
-
-            _liveDataDetail.value = list
+            _liveDataDetail.value = repository.getDetail(movieId, sessionId)
 
 
             _loadingState.value = StateDetail.HideLoading
@@ -70,29 +46,10 @@ class DetailViewModel(
     }
 
     fun addOrDeleteFavorite(movieId: Int, sessionId: String) {
-        launch {
-            val favouriteState = withContext(Dispatchers.IO) {
-                val movie = movieDao.getMovieById(movieId)
-                val newMovie = movie.copy(favouriteState = !movie.favouriteState)
-                movieDao.updateState(newMovie)
-                newMovie
-            }
-            _liveDataDetail.value = favouriteState
-            try {
-                val postMovie = PostMovie(
-                    media_id = movieId, favorite = favouriteState.favouriteState
-                )
-                RetrofitInstance.getPostApi().addFavorite(
-                    session_id = sessionId, postMovie = postMovie
-                )
-            } catch (e: Exception) {
-                Toast.makeText(
-                    context,
-                    "Нет подключение к интернету",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
+        viewModelScope.launch {
+            val movie = repository.changeFavouriteState(movieId, sessionId)
+            _liveDataDetail.value = movie
+            repository.postMovieState(movieId, sessionId, movie)
         }
     }
 

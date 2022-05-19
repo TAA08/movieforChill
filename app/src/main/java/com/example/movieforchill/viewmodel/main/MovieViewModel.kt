@@ -1,28 +1,20 @@
 package com.example.movieforchill.viewmodel.main
 
-import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.*
 import com.example.movieforchill.model.Result
 import com.example.movieforchill.model.retrofit.api.RetrofitInstance
-import com.example.movieforchill.model.room.dao.MovieDao
-import com.example.movieforchill.model.room.repository.MovieDatabase
+import com.example.movieforchill.model.room.repository.MovieRepository
 import com.example.movieforchill.view.MainActivity.Companion.isFirstDownloaded
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.Exception
-import kotlin.coroutines.CoroutineContext
 
 class MovieViewModel(
-    private val context: Context
-) : ViewModel(), CoroutineScope {
+    application: Application
+) : AndroidViewModel(application) {
 
-    override val coroutineContext: CoroutineContext = Dispatchers.Main
-    private val movieDao: MovieDao
-
+    val repository = MovieRepository(application)
 
     private val _loadingState = MutableLiveData<State>()
     val loadingState: LiveData<State>
@@ -32,36 +24,12 @@ class MovieViewModel(
     val movies: MutableLiveData<List<Result>?>
         get() = _movies
 
-    init {
-        getPosts()
-        movieDao = MovieDatabase.getDatabase(context).movieDao()
-    }
 
-    private fun getPosts() {
-        launch {
+    fun getPosts(page: Int) {
+        viewModelScope.launch {
             _loadingState.value = State.ShowLoading
-            val list = withContext(Dispatchers.IO) {
-                try {
-                    val response = RetrofitInstance.getPostApi().getMoviesList()
-                    if (response.isSuccessful && isFirstDownloaded) {
 
-                        isFirstDownloaded = false
-
-
-                        val result = response.body()?.results
-                        if (!result.isNullOrEmpty()) {
-                            movieDao.insertAll(result)
-                        }
-                        result
-                    } else {
-                        movieDao.getAll()
-
-                    }
-                } catch (e: Exception) {
-                    movieDao.getAll()
-                }
-            }
-            _movies.value = list
+            _movies.value = repository.loadMovie(page)
 
             _loadingState.value = State.HideLoading
             _loadingState.value = State.Finish

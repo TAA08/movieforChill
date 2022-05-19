@@ -63,8 +63,9 @@ class MovieFragment : Fragment(), CoroutineScope {
 
 
     private fun initAndObserveViewModel() {
-        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
+        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity().application)
         viewModel = ViewModelProvider(this, viewModelProviderFactory)[MovieViewModel::class.java]
+        viewModel.getPosts(PAGE)
 
 
         viewModel.loadingState.observe(viewLifecycleOwner) {
@@ -99,5 +100,9 @@ class MovieFragment : Fragment(), CoroutineScope {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+    companion object{
+        private var PAGE = 1
     }
 }

@@ -63,7 +63,7 @@ class DetailFragment : Fragment(), CoroutineScope {
     }
 
     private fun initViewModel() {
-        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
+        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity().application)
         viewModel = ViewModelProvider(this, viewModelProviderFactory)[DetailViewModel::class.java]
     }
 
