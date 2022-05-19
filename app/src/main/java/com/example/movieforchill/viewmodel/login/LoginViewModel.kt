@@ -1,19 +1,21 @@
 package com.example.movieforchill.viewmodel.login
 
+import android.app.Application
+import android.widget.Toast
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieforchill.model.LoginApprove
-import com.example.movieforchill.model.Token
-import com.example.movieforchill.model.retrofit.api.RetrofitInstance
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.example.movieforchill.model.room.repository.MovieRepository
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
-class LoginViewModel : ViewModel(), CoroutineScope {
-    override val coroutineContext: CoroutineContext = Dispatchers.Main
+class LoginViewModel(
+    application: Application
+) : AndroidViewModel(application) {
+
+    val repository = MovieRepository(application)
+    val context = application
 
     private val _loadingState = MutableLiveData<LoadingState>()
     val loadingState: LiveData<LoadingState>
@@ -24,33 +26,19 @@ class LoginViewModel : ViewModel(), CoroutineScope {
         get() = _sessionId
 
     fun login(data: LoginApprove) {
-
         viewModelScope.launch {
             _loadingState.value = LoadingState.ShowLoading
-            val responseGet = RetrofitInstance.getPostApi().getToken()
-            if (responseGet.isSuccessful) {
-                val loginApprove = LoginApprove(
-                    username = data.username,
-                    password = data.password,
-                    request_token = responseGet.body()?.request_token as String
-                )
-                val responseApprove = RetrofitInstance.getPostApi().approveToken(
-                    loginApprove = loginApprove
-                )
-                if (responseApprove.isSuccessful) {
-                    val session =
-                        RetrofitInstance.getPostApi().createSession(
-                            token = responseApprove.body() as Token
-                        )
-                    if (session.isSuccessful) {
-                        _sessionId.value = session.body()?.session_id
-                        _loadingState.value = LoadingState.HideLoading
-                        _loadingState.value = LoadingState.Finish
-                    }
-                } else {
-                    _loadingState.value = LoadingState.HideLoading
-                }
+            val session = repository.login(data.username, data.password)
+
+            _sessionId.value = session
+            _loadingState.value = LoadingState.HideLoading
+            if (!session.isNullOrBlank()){
+                _loadingState.value = LoadingState.Finish
             }
+            else{
+                Toast.makeText(context, "Неверные данные", Toast.LENGTH_SHORT).show()
+            }
+
         }
     }
 

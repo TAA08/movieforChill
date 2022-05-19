@@ -119,8 +119,8 @@ class MovieRepository(application: Application) {
 
     suspend fun login(username : String, password : String) : String {
         var session = ""
-        val responseGet = workWithApi.getToken()
         try {
+            val responseGet = workWithApi.getToken()
             if (responseGet.isSuccessful) {
                 val loginApprove = LoginApprove(
                     username = username,
@@ -138,8 +138,11 @@ class MovieRepository(application: Application) {
                     }
                 }
             }
+            else{
+                Toast.makeText(context, "Нет подключение к интернету", Toast.LENGTH_SHORT).show()
+            }
         } catch (e : Exception){
-//            Toast.makeText(context, "Нет подключение к интернету", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Нет подключение к интернету", Toast.LENGTH_SHORT).show()
         }
 
         return session

@@ -1,14 +1,13 @@
 package com.example.movieforchill.viewmodel.main
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.movieforchill.model.Result
-import com.example.movieforchill.model.retrofit.api.RetrofitInstance
 import com.example.movieforchill.model.room.repository.MovieRepository
-import com.example.movieforchill.view.MainActivity.Companion.isFirstDownloaded
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MovieViewModel(
     application: Application

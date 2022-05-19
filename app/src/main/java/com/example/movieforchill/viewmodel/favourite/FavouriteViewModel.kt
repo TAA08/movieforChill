@@ -1,20 +1,14 @@
 package com.example.movieforchill.viewmodel.favourite
 
 import android.app.Application
-import android.content.Context
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.movieforchill.model.Result
-import com.example.movieforchill.model.retrofit.api.RetrofitInstance
-import com.example.movieforchill.model.room.dao.MovieDao
-import com.example.movieforchill.model.room.repository.MovieDatabase
 import com.example.movieforchill.model.room.repository.MovieRepository
-import com.example.movieforchill.view.MainActivity.Companion.isFirstDownloaded
 import com.example.movieforchill.viewmodel.main.MovieViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.CoroutineContext
 
 class FavouriteViewModel(
     application: Application
