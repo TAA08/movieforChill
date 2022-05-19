@@ -40,7 +40,7 @@ class DetailViewModel(
 
     fun addOrDeleteFavorite(movieId: Int, sessionId: String) {
         viewModelScope.launch {
-            val movie = repository.changeFavouriteState(movieId, sessionId)
+            val movie = repository.changeFavouriteState(movieId)
             _liveDataDetail.value = movie
             repository.postMovieState(movieId, sessionId, movie)
         }

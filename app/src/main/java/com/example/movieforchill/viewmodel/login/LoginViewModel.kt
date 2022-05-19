@@ -7,14 +7,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.movieforchill.model.LoginApprove
-import com.example.movieforchill.model.room.repository.MovieRepository
+import com.example.movieforchill.model.room.repository.LoginRepository
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
-    val repository = MovieRepository(application)
+    val repository = LoginRepository(application)
     val context = application
 
     private val _loadingState = MutableLiveData<LoadingState>()
@@ -32,7 +32,7 @@ class LoginViewModel(
 
             _sessionId.value = session
             _loadingState.value = LoadingState.HideLoading
-            if (!session.isNullOrBlank()){
+            if (session.isNotBlank()){
                 _loadingState.value = LoadingState.Finish
             }
             else{

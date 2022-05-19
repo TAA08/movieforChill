@@ -1,35 +1,26 @@
 package com.example.movieforchill.model.room.repository
 
 import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
 import android.widget.Toast
-import com.example.movieforchill.model.LoginApprove
 import com.example.movieforchill.model.PostMovie
 import com.example.movieforchill.model.Result
-import com.example.movieforchill.model.Token
 import com.example.movieforchill.model.retrofit.api.RetrofitInstance
 import com.example.movieforchill.view.MainActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 
 class MovieRepository(application: Application) {
 
     private val workWithApi = RetrofitInstance.getPostApi()
     private val db = MovieDatabase.getDatabase(application).movieDao()
-    private var prefSettings: SharedPreferences = application.getSharedPreferences(
-        APP_SETTINGS,
-        Context.MODE_PRIVATE
-    ) as SharedPreferences
-    private var editor: SharedPreferences.Editor = prefSettings.edit()
+
     private var context = application
 
 
     suspend fun loadMovie(page: Int): List<Result>? {
         return withContext(Dispatchers.IO) {
             try {
-                val response = workWithApi.getMoviesList()
+                val response = workWithApi.getMoviesList(page = page)
                 if (response.isSuccessful && isFirstDownloaded) {
 
                     isFirstDownloaded = false
@@ -72,7 +63,7 @@ class MovieRepository(application: Application) {
         }
     }
 
-    suspend fun changeFavouriteState(movieId: Int, sessionId: String): Result {
+    suspend fun changeFavouriteState(movieId: Int): Result {
         return withContext(Dispatchers.IO) {
             val movie = db.getMovieById(movieId)
             val newMovie = movie.copy(favouriteState = !movie.favouriteState)
@@ -117,44 +108,11 @@ class MovieRepository(application: Application) {
         }
     }
 
-    suspend fun login(username : String, password : String) : String {
-        var session = ""
-        try {
-            val responseGet = workWithApi.getToken()
-            if (responseGet.isSuccessful) {
-                val loginApprove = LoginApprove(
-                    username = username,
-                    password = password,
-                    request_token = responseGet.body()?.request_token as String
-                )
-                val responseApprove = workWithApi.approveToken(
-                    loginApprove = loginApprove
-                )
-                if (responseApprove.isSuccessful) {
-                    val response =
-                        workWithApi.createSession(token = responseApprove.body() as Token)
-                    if (response.isSuccessful){
-                        session = response.body()?.session_id as String
-                    }
-                }
-            }
-            else{
-                Toast.makeText(context, "Нет подключение к интернету", Toast.LENGTH_SHORT).show()
-            }
-        } catch (e : Exception){
-            Toast.makeText(context, "Нет подключение к интернету", Toast.LENGTH_SHORT).show()
-        }
 
-        return session
-    }
 
 
     companion object {
-
-        const val APP_SETTINGS = "Settings"
         private var isFirstDownloaded = true
-        const val FRAGMENTS_KEY = "SESSION_FRAGMENT"
-        const val LOGIN_KEY = "SESSION_LOGIN"
-        const val CURRENT_USER_ID = "CURRENT_USER"
+
     }
 }
