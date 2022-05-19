@@ -1,15 +1,15 @@
 package com.example.movieforchill.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.movieforchill.databinding.MainFragmentBinding
+import com.example.movieforchill.databinding.FragmentMovieBinding
 import com.example.movieforchill.model.Result
 import com.example.movieforchill.view.adapter.MainMoviesAdapter
 import com.example.movieforchill.viewmodel.ViewModelProviderFactory
@@ -19,10 +19,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class MainFragment : Fragment(), CoroutineScope {
+class MovieFragment : Fragment(), CoroutineScope {
 
 
-    private lateinit var binding: MainFragmentBinding
+    private lateinit var binding: FragmentMovieBinding
     private lateinit var viewModel: MovieViewModel
     private val adapter = MainMoviesAdapter()
 
@@ -33,7 +33,7 @@ class MainFragment : Fragment(), CoroutineScope {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = MainFragmentBinding.inflate(inflater, container, false)
+        binding = FragmentMovieBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -53,7 +53,7 @@ class MainFragment : Fragment(), CoroutineScope {
             adapter.onMovieClickListener = object : MainMoviesAdapter.OnMovieClickListener {
                 override fun onMovieClick(result: Result) {
                     val action =
-                        MainFragmentDirections.actionFirstFragmentToDetailFragment(result.id)
+                        MovieFragmentDirections.actionFirstFragmentToDetailFragment(result.id)
                     findNavController().navigate(action)
                 }
 

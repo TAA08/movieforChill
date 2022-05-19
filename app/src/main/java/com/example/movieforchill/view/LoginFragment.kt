@@ -97,6 +97,7 @@ class LoginFragment : Fragment(), CoroutineScope {
                                 R.id.action_loginFragment_to_navigation_first_fragment
                             )
                         } catch (e: Exception) {
+                            Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

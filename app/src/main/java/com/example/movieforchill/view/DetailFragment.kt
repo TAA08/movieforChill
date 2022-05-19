@@ -3,14 +3,14 @@ package com.example.movieforchill.view
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.example.movieforchill.R
-import com.example.movieforchill.databinding.DetailFragmentBinding
+import com.example.movieforchill.databinding.FragmentDetailBinding
 import com.example.movieforchill.viewmodel.ViewModelProviderFactory
 import com.example.movieforchill.viewmodel.detail.DetailViewModel
 import com.squareup.picasso.Picasso
@@ -20,7 +20,7 @@ import kotlin.coroutines.CoroutineContext
 
 class DetailFragment : Fragment(), CoroutineScope {
 
-    private lateinit var binding: DetailFragmentBinding
+    private lateinit var binding: FragmentDetailBinding
     private val args: DetailFragmentArgs by navArgs()
     private lateinit var viewModel: DetailViewModel
 
@@ -40,7 +40,7 @@ class DetailFragment : Fragment(), CoroutineScope {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DetailFragmentBinding.inflate(inflater, container, false)
+        binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -95,6 +95,7 @@ class DetailFragment : Fragment(), CoroutineScope {
                 }
                 is DetailViewModel.StateDetail.HideLoading -> {
                     binding.progressBar.visibility = View.GONE
+                    binding.ivFavIcon.visibility = View.VISIBLE
                 }
                 is DetailViewModel.StateDetail.Finish -> {
                     viewModel.liveDataDetail.observe(viewLifecycleOwner) {

@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.movieforchill.databinding.FavouriteFragmentBinding
+import com.example.movieforchill.databinding.FragmentFavouriteBinding
 import com.example.movieforchill.model.Result
 import com.example.movieforchill.view.adapter.MainMoviesAdapter
 import com.example.movieforchill.viewmodel.ViewModelProviderFactory
@@ -22,7 +22,7 @@ import kotlin.coroutines.CoroutineContext
 
 class FavouriteFragment : Fragment(), CoroutineScope {
 
-    private lateinit var binding: FavouriteFragmentBinding
+    private lateinit var binding: FragmentFavouriteBinding
     private lateinit var viewModel: FavouriteViewModel
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main
@@ -42,7 +42,7 @@ class FavouriteFragment : Fragment(), CoroutineScope {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FavouriteFragmentBinding.inflate(inflater, container, false)
+        binding = FragmentFavouriteBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -68,7 +68,7 @@ class FavouriteFragment : Fragment(), CoroutineScope {
             this, viewModelProviderFactory
         )[FavouriteViewModel::class.java]
 
-        viewModel.loadingState.observe(viewLifecycleOwner) {
+        viewModel.loadingState.observe(viewLifecycleOwner) { it ->
             when (it) {
                 is MovieViewModel.State.ShowLoading -> binding.favprogressBar.visibility =
                     View.VISIBLE

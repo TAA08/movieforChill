@@ -27,7 +27,8 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_baseline_not_like" />
+            android:src="@drawable/ic_baseline_not_like"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/movie_title"

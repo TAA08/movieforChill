@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         initBottomNav()
 
 
-//        setSupportActionBar(binding.toolbar)
+     setSupportActionBar(binding.toolbar)
         setupActionBarWithNavController(navController)
     }
 

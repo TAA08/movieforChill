@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/filmsFragment"
-        android:name="com.example.movieforchill.view.MainFragment"
+        android:name="com.example.movieforchill.view.MovieFragment"
         android:label="@string/movie"
-        tools:layout="@layout/main_fragment">
+        tools:layout="@layout/fragment_movie">
         <action
             android:id="@+id/action_firstFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.movieforchill.view.DetailFragment"
-        tools:layout="@layout/detail_fragment">
+        tools:layout="@layout/fragment_detail">
         <argument
             android:name="movieId"
             app:argType="integer" />
