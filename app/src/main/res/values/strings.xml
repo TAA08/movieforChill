@@ -17,4 +17,8 @@
     <string name="movie">Топ фильмов</string>
     <string name="favourite_movie">Любимые фильмы</string>
     <string name="movie_detail">детали</string>
+    <string name="account">Аккаунт</string>
+    <string name="camera">Камера</string>
+    <string name="upload_photo">Загрузить с галереи</string>
+    <string name="image_of_avatars">image of avatars</string>
 </resources>

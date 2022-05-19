@@ -12,7 +12,13 @@
     <item
         android:id="@+id/navigation_second_fragment"
         android:enabled="true"
-        android:icon="@drawable/ic_menu"
+        android:icon="@drawable/ic_baseline_favorite_24"
         android:title="@string/favourite_movie"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/account_fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_account_circle_24"
+        android:title="@string/account"
         app:showAsAction="ifRoom" />
 </menu>
