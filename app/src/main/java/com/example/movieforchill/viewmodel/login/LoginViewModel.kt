@@ -2,19 +2,17 @@ package com.example.movieforchill.viewmodel.login
 
 import android.app.Application
 import android.widget.Toast
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.example.movieforchill.model.LoginApprove
+import androidx.lifecycle.*
+import com.example.movieforchill.model.movie.LoginApprove
 import com.example.movieforchill.model.room.repository.LoginRepository
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    application: Application
-) : AndroidViewModel(application) {
+    application: Application,
+    var repository: LoginRepository
+) : ViewModel() {
 
-    val repository = LoginRepository(application)
+
     val context = application
 
     private val _loadingState = MutableLiveData<LoadingState>()

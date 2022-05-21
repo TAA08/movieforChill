@@ -63,13 +63,13 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
     }
 
 
-    //берем фотографии с галлереи
+    //функция позволяющая сделать фотографию
     private fun takePicture() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(takePictureIntent, PERMISSION_FOR_CAMERA)
     }
 
-    //функция позволяющая сделать фотографию
+    //берем фотографии с галлереи
     private fun pickImage() {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         startActivityForResult(gallery, PERMISSION_FOR_GALLERY)

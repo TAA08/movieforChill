@@ -1,7 +1,7 @@
 package com.example.movieforchill.view.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.movieforchill.model.Result
+import com.example.movieforchill.model.movie.Result
 
 
 object MovieDiffCallback : DiffUtil.ItemCallback<Result>() {

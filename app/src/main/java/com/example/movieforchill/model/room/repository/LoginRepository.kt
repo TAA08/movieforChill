@@ -1,22 +1,22 @@
 package com.example.movieforchill.model.room.repository
 
 import android.app.Application
-import android.content.Context
 import android.content.SharedPreferences
 import android.widget.Toast
-import com.example.movieforchill.model.LoginApprove
-import com.example.movieforchill.model.Session
-import com.example.movieforchill.model.Token
-import com.example.movieforchill.model.retrofit.api.RetrofitInstance
+import com.example.movieforchill.model.movie.LoginApprove
+import com.example.movieforchill.model.movie.Session
+import com.example.movieforchill.model.movie.Token
+import com.example.movieforchill.model.retrofit.api.MoviesApiService
 
-class LoginRepository(application: Application) {
+class LoginRepository(
+    application: Application,
+    val workWithApi: MoviesApiService,
+    val prefSettings: SharedPreferences
+) {
 
-    private var prefSettings: SharedPreferences = application.getSharedPreferences(
-        APP_SETTINGS,
-        Context.MODE_PRIVATE
-    ) as SharedPreferences
+
     private var editor: SharedPreferences.Editor = prefSettings.edit()
-    private val workWithApi = RetrofitInstance.getPostApi()
+
     val context = application
 
     private fun getSessionId(): String {
@@ -70,9 +70,7 @@ class LoginRepository(application: Application) {
     }
 
     companion object {
-
         private var SESSION_ID = ""
-        const val APP_SETTINGS = "Settings"
         const val SESSION_ID_KEY = "SESSION_ID"
     }
 }

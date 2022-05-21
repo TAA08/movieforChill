@@ -1,19 +1,14 @@
 package com.example.movieforchill.viewmodel.main
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.example.movieforchill.model.Result
+import androidx.lifecycle.*
+import com.example.movieforchill.model.movie.Result
 import com.example.movieforchill.model.room.repository.MovieRepository
 import kotlinx.coroutines.launch
 
 class MovieViewModel(
-    application: Application
-) : AndroidViewModel(application) {
-
-    val repository = MovieRepository(application)
+    val repository: MovieRepository
+) : ViewModel() {
 
     private val _loadingState = MutableLiveData<State>()
     val loadingState: LiveData<State>

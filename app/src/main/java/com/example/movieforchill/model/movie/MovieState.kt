@@ -1,4 +1,4 @@
-package com.example.movieforchill.model
+package com.example.movieforchill.model.movie
 
 import com.google.gson.annotations.SerializedName
 

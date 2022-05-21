@@ -1,4 +1,4 @@
-package com.example.movieforchill.model
+package com.example.movieforchill.model.movie
 
 import android.os.Parcelable
 import androidx.room.Entity

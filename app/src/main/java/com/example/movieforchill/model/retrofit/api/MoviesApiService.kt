@@ -1,6 +1,7 @@
 package com.example.movieforchill.model.retrofit.api
 
-import com.example.movieforchill.model.*
+import com.example.movieforchill.model.account.Avatar
+import com.example.movieforchill.model.movie.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -67,6 +68,12 @@ interface MoviesApiService { // интерфейс для создания ге�
         @Query("api_key") apiKey: String = API_KEY,
         @Query("session_id") session_id: String = SESSION_ID
     ): Response<MovieState>
+
+    @GET("account")
+    suspend fun getAccountDetails(
+        @Query("api_key") apiKey: String = API_KEY,
+        @Query("session_id") session_id: String = SESSION_ID
+    ): Response<Avatar>
 
     companion object {
 

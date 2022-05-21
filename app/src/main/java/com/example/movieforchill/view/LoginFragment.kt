@@ -10,21 +10,21 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movieforchill.R
 import com.example.movieforchill.databinding.FragmentLoginBinding
-import com.example.movieforchill.model.LoginApprove
+import com.example.movieforchill.model.movie.LoginApprove
 import com.example.movieforchill.viewmodel.login.LoginViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.coroutines.CoroutineContext
 
 class LoginFragment : Fragment(), CoroutineScope {
 
 
     private lateinit var binding: FragmentLoginBinding
-    private lateinit var viewModel: LoginViewModel
+    private val viewModel by viewModel<LoginViewModel>()
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main
 
@@ -52,17 +52,9 @@ class LoginFragment : Fragment(), CoroutineScope {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViewModel()
         onLoginClick()
     }
 
-    private fun initViewModel() {
-        viewModel =
-            ViewModelProvider(
-                this,
-                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-            )[LoginViewModel::class.java]
-    }
 
     private fun onLoginClick() {
         binding.btnLogin.setOnClickListener {

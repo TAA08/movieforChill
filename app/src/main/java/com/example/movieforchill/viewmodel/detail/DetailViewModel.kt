@@ -1,19 +1,16 @@
 package com.example.movieforchill.viewmodel.detail
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movieforchill.model.Result
+import com.example.movieforchill.model.movie.Result
 import com.example.movieforchill.model.room.repository.MovieRepository
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
-    application: Application
-) : AndroidViewModel(application) {
-
-    var repository = MovieRepository(application)
+    val repository: MovieRepository
+) :ViewModel() {
 
 
     private val _liveDataDetail = MutableLiveData<Result>()

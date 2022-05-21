@@ -80,4 +80,11 @@ dependencies {
 
     //viewpager2
     implementation "androidx.viewpager2:viewpager2:1.0.0"
+
+
+    // Koin for Kotlin apps
+    implementation "io.insert-koin:koin-core:3.2.0"
+    implementation "io.insert-koin:koin-android:3.2.0"
+    // Testing
+    testImplementation "io.insert-koin:koin-test:3.2.0"
 }

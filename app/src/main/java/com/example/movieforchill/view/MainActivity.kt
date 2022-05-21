@@ -18,12 +18,14 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.movieforchill.R
 import com.example.movieforchill.databinding.ActivityMainBinding
 import com.example.movieforchill.viewmodel.MainViewModel
+import com.example.movieforchill.viewmodel.favourite.FavouriteViewModel
 import com.google.android.material.navigation.NavigationBarView
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private lateinit var viewModel: MainViewModel
+    private val viewModel by viewModel<MainViewModel>()
 
     private lateinit var prefSettings: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
@@ -43,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
 
 //        navController = findNavController(R.id.nav_host_fragment)
-        init()
+//        init()
         bottomBarVisibility()
         initBottomNav()
 
@@ -52,13 +54,13 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController)
     }
 
-    private fun init() {
-
-        viewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-        )[MainViewModel::class.java]
-    }
+//    private fun init() {
+//
+//        viewModel = ViewModelProvider(
+//            this,
+//            ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+//        )[MainViewModel::class.java]
+//    }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
@@ -96,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.logout_menu, menu)
         return true
     }

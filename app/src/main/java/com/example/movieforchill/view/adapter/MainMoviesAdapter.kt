@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.movieforchill.databinding.MoviesItemBinding
-import com.example.movieforchill.model.Result
+import com.example.movieforchill.model.movie.Result
 import com.squareup.picasso.Picasso
 
 

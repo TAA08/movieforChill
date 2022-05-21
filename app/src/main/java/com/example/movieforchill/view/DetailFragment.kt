@@ -13,16 +13,18 @@ import com.example.movieforchill.R
 import com.example.movieforchill.databinding.FragmentDetailBinding
 import com.example.movieforchill.viewmodel.ViewModelProviderFactory
 import com.example.movieforchill.viewmodel.detail.DetailViewModel
+import com.example.movieforchill.viewmodel.main.MovieViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.coroutines.CoroutineContext
 
 class DetailFragment : Fragment(), CoroutineScope {
 
     private lateinit var binding: FragmentDetailBinding
     private val args: DetailFragmentArgs by navArgs()
-    private lateinit var viewModel: DetailViewModel
+    private  val viewModel by viewModel<DetailViewModel>()
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main
 
@@ -63,8 +65,7 @@ class DetailFragment : Fragment(), CoroutineScope {
     }
 
     private fun initViewModel() {
-        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, viewModelProviderFactory)[DetailViewModel::class.java]
+
     }
 
     private fun setOnClickFavourites() {

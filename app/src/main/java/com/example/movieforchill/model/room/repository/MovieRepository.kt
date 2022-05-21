@@ -2,17 +2,22 @@ package com.example.movieforchill.model.room.repository
 
 import android.app.Application
 import android.widget.Toast
-import com.example.movieforchill.model.PostMovie
-import com.example.movieforchill.model.Result
+import com.example.movieforchill.model.movie.PostMovie
+import com.example.movieforchill.model.movie.Result
+import com.example.movieforchill.model.retrofit.api.MoviesApiService
 import com.example.movieforchill.model.retrofit.api.RetrofitInstance
+import com.example.movieforchill.model.room.dao.MovieDao
 import com.example.movieforchill.view.MainActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class MovieRepository(application: Application) {
+class MovieRepository(
+    private val application: Application,
+    private val api: MoviesApiService,
+    private val db: MovieDao
+) {
 
-    private val workWithApi = RetrofitInstance.getPostApi()
-    private val db = MovieDatabase.getDatabase(application).movieDao()
+
 
     private var context = application
 
@@ -20,7 +25,7 @@ class MovieRepository(application: Application) {
     suspend fun loadMovie(page: Int): List<Result>? {
         return withContext(Dispatchers.IO) {
             try {
-                val response = workWithApi.getMoviesList(page = page)
+                val response = api.getMoviesList(page = page)
                 if (response.isSuccessful && isFirstDownloaded) {
 
                     isFirstDownloaded = false
@@ -46,7 +51,7 @@ class MovieRepository(application: Application) {
             try {
                 val result = db.getMovieById(movieId)
                 if (sessionId != null) {
-                    val response = workWithApi.getMovieStates(
+                    val response = api.getMovieStates(
                         movieId,
                         session_id = sessionId
                     )
@@ -79,7 +84,7 @@ class MovieRepository(application: Application) {
                 media_id = movieId,
                 favorite = movie.favouriteState
             )
-            workWithApi.addFavorite(
+            api.addFavorite(
                 session_id = sessionId, postMovie = postMovie
             )
         } catch (e: Exception) {

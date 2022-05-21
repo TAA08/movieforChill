@@ -7,23 +7,22 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movieforchill.databinding.FragmentMovieBinding
-import com.example.movieforchill.model.Result
+import com.example.movieforchill.model.movie.Result
 import com.example.movieforchill.view.adapter.MainMoviesAdapter
-import com.example.movieforchill.viewmodel.ViewModelProviderFactory
 import com.example.movieforchill.viewmodel.main.MovieViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.coroutines.CoroutineContext
 
 class MovieFragment : Fragment(), CoroutineScope {
 
 
     private lateinit var binding: FragmentMovieBinding
-    private lateinit var viewModel: MovieViewModel
+    private  val viewModel by viewModel<MovieViewModel>()
     private val adapter = MainMoviesAdapter()
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main
@@ -63,8 +62,7 @@ class MovieFragment : Fragment(), CoroutineScope {
 
 
     private fun initAndObserveViewModel() {
-        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity().application)
-        viewModel = ViewModelProvider(this, viewModelProviderFactory)[MovieViewModel::class.java]
+
         viewModel.getPosts(PAGE)
 
 

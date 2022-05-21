@@ -1,7 +1,7 @@
 package com.example.movieforchill.model.room.dao
 
 import androidx.room.*
-import com.example.movieforchill.model.Result
+import com.example.movieforchill.model.movie.Result
 
 @Dao
 interface MovieDao {
@@ -20,4 +20,13 @@ interface MovieDao {
 
     @Update
     suspend fun updateState(movie: Result)
+
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    suspend fun insertUser(user: DbAccountDetails)
+//
+//    @Query("SELECT * FROM users_table WHERE id == :userId")
+//    suspend fun getUserById(userId: Int): DbAccountDetails
+
+//    @Update(entity = DbAccountDetails::class)
+//    suspend fun userUpdate(user: AccountUpdate)
 }

@@ -7,23 +7,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.movieforchill.databinding.FragmentFavouriteBinding
-import com.example.movieforchill.model.Result
+import com.example.movieforchill.model.movie.Result
 import com.example.movieforchill.view.adapter.MainMoviesAdapter
-import com.example.movieforchill.viewmodel.ViewModelProviderFactory
 import com.example.movieforchill.viewmodel.favourite.FavouriteViewModel
 import com.example.movieforchill.viewmodel.main.MovieViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.coroutines.CoroutineContext
 
 class FavouriteFragment : Fragment(), CoroutineScope {
 
     private lateinit var binding: FragmentFavouriteBinding
-    private lateinit var viewModel: FavouriteViewModel
+    private val viewModel by viewModel<FavouriteViewModel>()
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main
     private val adapter = MainMoviesAdapter()
@@ -63,10 +62,6 @@ class FavouriteFragment : Fragment(), CoroutineScope {
     }
 
     private fun initAndObserveViewModel() {
-        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity().application)
-        viewModel = ViewModelProvider(
-            this, viewModelProviderFactory
-        )[FavouriteViewModel::class.java]
 
         viewModel.loadingState.observe(viewLifecycleOwner) { it ->
             when (it) {
