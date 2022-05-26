@@ -9,7 +9,7 @@
     <include app:graph="@navigation/favourites_film_fragment" />
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.movieforchill.view.LoginFragment"
+        android:name="com.example.movieforchill.presentation.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.example.movieforchill.view.viewPager.SplashFragment"
+        android:name="com.example.movieforchill.presentation.view.viewPager.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/viewPagerFragment"
-        android:name="com.example.movieforchill.view.viewPager.onboarding.ViewPagerFragment"
+        android:name="com.example.movieforchill.presentation.view.viewPager.onboarding.ViewPagerFragment"
         android:label="fragment_view_pager"
         tools:layout="@layout/fragment_view_pager" >
         <action

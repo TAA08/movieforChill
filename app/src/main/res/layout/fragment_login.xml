@@ -11,7 +11,7 @@
     android:paddingRight="10dp"
     android:paddingBottom="10dp"
 
-    tools:context=".view.LoginFragment">
+    tools:context=".presentation.login.LoginFragment">
 
     <EditText
         android:id="@+id/et_password"
