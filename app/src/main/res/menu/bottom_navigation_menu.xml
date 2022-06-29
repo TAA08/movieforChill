@@ -21,4 +21,11 @@
         android:icon="@drawable/ic_baseline_account_circle_24"
         android:title="@string/account"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/maps_fragment"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_mapmode"
+        android:title="@string/map"
+        app:showAsAction="ifRoom" />
 </menu>

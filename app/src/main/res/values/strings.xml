@@ -21,4 +21,8 @@
     <string name="camera">Камера</string>
     <string name="upload_photo">Загрузить с галереи</string>
     <string name="image_of_avatars">image of avatars</string>
+    <string name="map">Карта</string>
+    <string name="actor_name">Имя актера</string>
+    <string name="character">Роль актера</string>
+    <string name="main_actors">В главных ролях</string>
 </resources>

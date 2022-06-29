@@ -44,5 +44,6 @@
             app:popUpToInclusive="true" />
     </fragment>
     <include app:graph="@navigation/account_fragment" />
+    <include app:graph="@navigation/maps_fragment" />
 
 </navigation>

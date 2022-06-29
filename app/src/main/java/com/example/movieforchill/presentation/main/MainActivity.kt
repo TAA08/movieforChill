@@ -18,6 +18,9 @@ import com.example.movieforchill.R
 import com.example.movieforchill.databinding.ActivityMainBinding
 import com.example.movieforchill.presentation.login.LoginFragment
 import com.google.android.material.navigation.NavigationBarView
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var prefSettings: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 //        init()
         bottomBarVisibility()
         initBottomNav()
+        firebaseAnalytics = Firebase.analytics
 
 
      setSupportActionBar(binding.toolbar)

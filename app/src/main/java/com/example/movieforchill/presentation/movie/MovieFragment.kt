@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.movieforchill.databinding.FragmentMovieBinding
 import com.example.movieforchill.domain.models.movie.Result
-import com.example.movieforchill.presentation.view.adapter.MainMoviesAdapter
+import com.example.movieforchill.presentation.view.adapter.movie.MainMoviesAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,6 +43,13 @@ class MovieFragment : Fragment(), CoroutineScope {
         initAndObserveViewModel()
         getClick()
         onBackPressed()
+        setBindings()
+    }
+
+    private fun setBindings() {
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.getPosts(PAGE)
+        }
     }
 
     private fun getClick() {
@@ -67,8 +74,14 @@ class MovieFragment : Fragment(), CoroutineScope {
 
         viewModel.loadingState.observe(viewLifecycleOwner) {
             when (it) {
-                is MovieViewModel.State.ShowLoading -> binding.progressBar.visibility = View.VISIBLE
-                is MovieViewModel.State.HideLoading -> binding.progressBar.visibility = View.GONE
+                is MovieViewModel.State.ShowLoading ->{
+                    binding.swipeRefresh.isRefreshing = true
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is MovieViewModel.State.HideLoading ->{
+                    binding.swipeRefresh.isRefreshing = false
+                    binding.progressBar.visibility = View.GONE
+                }
                 is MovieViewModel.State.Finish -> viewModel.movies.observe(viewLifecycleOwner) {
                     adapter.submitList(it)
                     binding.rvMovies.adapter = adapter

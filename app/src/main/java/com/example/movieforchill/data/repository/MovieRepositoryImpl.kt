@@ -2,22 +2,27 @@ package com.example.movieforchill.data.repository
 
 import android.app.Application
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.viewModelScope
 import com.example.movieforchill.domain.models.movie.PostMovie
 import com.example.movieforchill.domain.models.movie.Result
 import com.example.movieforchill.data.net.MoviesApiService
 import com.example.movieforchill.data.net.RetrofitInstance
 import com.example.movieforchill.data.room.MovieDao
+import com.example.movieforchill.domain.models.actors.Cast
+import com.example.movieforchill.domain.models.actors.Credits
 import com.example.movieforchill.domain.repository.MovieRepository
 import com.example.movieforchill.presentation.main.MainActivity
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 
 class MovieRepositoryImpl(
     application: Application,
     private val api: MoviesApiService,
     private val db: MovieDao
-) : MovieRepository{
-
+) : MovieRepository {
 
 
     private var context = application
@@ -93,8 +98,8 @@ class MovieRepositoryImpl(
         }
     }
 
-    override suspend fun  getFavouriteMovie(sessionId: String) : List<Result>?{
-        return withContext(Dispatchers.IO){
+    override suspend fun getFavouriteMovie(sessionId: String): List<Result>? {
+        return withContext(Dispatchers.IO) {
             try {
                 val response = RetrofitInstance.getPostApi().getFavorites(session_id = sessionId)
                 if (response.isSuccessful) {
@@ -114,7 +119,13 @@ class MovieRepositoryImpl(
         }
     }
 
+    override suspend fun getMovieCredits(movieId: Int): Response<Credits> {
+        return withContext(Dispatchers.IO){
+            api.getMovieCredits(movieId)
+        }
 
+
+    }
 
 
     companion object {

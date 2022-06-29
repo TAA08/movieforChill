@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.movieforchill.databinding.FragmentFavouriteBinding
 import com.example.movieforchill.domain.models.movie.Result
-import com.example.movieforchill.presentation.view.adapter.MainMoviesAdapter
+import com.example.movieforchill.presentation.view.adapter.movie.MainMoviesAdapter
 import com.example.movieforchill.presentation.movie.MovieViewModel
 import com.example.movieforchill.presentation.login.LoginFragment
 import kotlinx.coroutines.CoroutineScope

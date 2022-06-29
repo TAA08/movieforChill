@@ -1,5 +1,6 @@
 package com.example.movieforchill.data.net
 
+import com.example.movieforchill.domain.models.actors.Credits
 import com.example.movieforchill.domain.models.movie.MovieState
 import com.example.movieforchill.domain.models.movie.MoviesModel
 import com.example.movieforchill.domain.models.movie.PostMovie
@@ -80,6 +81,12 @@ interface MoviesApiService { // интерфейс для создания ге�
         @Query("api_key") apiKey: String = API_KEY,
         @Query("session_id") session_id: String = SESSION_ID
     ): Response<Avatar>
+
+    @GET("movie/{movie_id}/credits")
+    suspend fun  getMovieCredits(
+        @Path("movie_id") id: Int,
+        @Query("api_key") apiKey: String = API_KEY,
+    ) : Response<Credits>
 
     companion object {
 

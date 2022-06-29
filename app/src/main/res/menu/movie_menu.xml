@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    android:id="@+id/logout"
+    android:menuCategory="container"
+    android:title="@string/logout"
+    android:visible="true"
+    app:showAsAction="never"
+</menu>

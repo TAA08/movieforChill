@@ -12,11 +12,12 @@ import com.example.movieforchill.domain.repository.LoginRepository
 class LoginRepositoryImpl(
     application: Application,
     val workWithApi: MoviesApiService,
-    val prefSettings: SharedPreferences
+    val prefSettings: SharedPreferences,
+    private val editor: SharedPreferences.Editor
 ) : LoginRepository {
 
 
-    private var editor: SharedPreferences.Editor = prefSettings.edit()
+
 
     val context = application
 

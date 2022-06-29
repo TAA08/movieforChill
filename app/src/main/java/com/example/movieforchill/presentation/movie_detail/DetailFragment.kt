@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.movieforchill.R
 import com.example.movieforchill.databinding.FragmentDetailBinding
 import com.example.movieforchill.presentation.login.LoginFragment
+import com.example.movieforchill.presentation.view.adapter.actors.ActorsAdapter
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +25,7 @@ class DetailFragment : Fragment(), CoroutineScope {
     private  val viewModel by viewModel<DetailViewModel>()
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main
+    private val castActorsAdapter = ActorsAdapter()
 
     private lateinit var prefSettings: SharedPreferences
 
@@ -48,6 +50,7 @@ class DetailFragment : Fragment(), CoroutineScope {
         getSessionId()
         initViewModel()
         getMovieDetails()
+        observeActors()
 
         setOnClickFavourites()
         setLike()
@@ -104,6 +107,15 @@ class DetailFragment : Fragment(), CoroutineScope {
                     }
                 }
             }
+        }
+    }
+
+    private fun observeActors(){
+        viewModel.getActors(args.movieId)
+        viewModel.actors.observe(viewLifecycleOwner){
+            castActorsAdapter.submitList(it)
+            binding.rvActors.adapter = castActorsAdapter
+
         }
     }
 

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "64707658410",
+    "project_id": "movieforchill",
+    "storage_bucket": "movieforchill.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64707658410:android:ddccecc3e3f941bc2606d3",
+        "android_client_info": {
+          "package_name": "com.example.movieforchill"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64707658410-gq1b6bpvq14kt379fvk7f87sd1c3upvb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7rYo6YSo1C8vBgob6Iilpd6UY-CKLeF0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64707658410-gq1b6bpvq14kt379fvk7f87sd1c3upvb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -25,7 +25,12 @@ val networkModule = module {
 
 val daoModule = module {
     single { getMovieDao(context = get()) }
+
+}
+
+val sharedPreferences = module {
     single { getSharedPreferences(context = get()) }
+    single { getSharedPreferences(context = get()).edit() }
 }
 
 val repositoryModule = module {
@@ -34,7 +39,8 @@ val repositoryModule = module {
         LoginRepositoryImpl(
             application = get(),
             workWithApi = get(),
-            prefSettings = get()
+            prefSettings = get(),
+            editor = get()
         )
     }
 }
@@ -47,6 +53,7 @@ val useCaseModule = module {
     single { GetFavouriteMovieUseCase(repository = get()) }
     single { DeleteSessionUseCase(repository = get()) }
     single { UserLoginUseCase(repository = get()) }
+    single { GetCreditsUseCase(repository = get()) }
 
 }
 
@@ -56,7 +63,9 @@ val viewModelModule = module {
         DetailViewModel(
             detailUseCase = get(),
             changeMovieStateUseCase = get(),
-            postMovieStateUseCase = get()
+            postMovieStateUseCase = get(),
+            application = get(),
+            getCreditsUseCase = get()
         )
     }
     viewModel { FavouriteViewModel(favouriteMovieUseCase = get()) }
@@ -65,7 +74,8 @@ val viewModelModule = module {
 
 }
 
-val appModule = networkModule + daoModule + repositoryModule + viewModelModule + useCaseModule
+val appModule =
+    networkModule + daoModule + repositoryModule + viewModelModule + useCaseModule + sharedPreferences
 
 private fun getMovieApi(): MoviesApiService = RetrofitInstance.getPostApi()
 private fun getMovieDao(context: Context): MovieDao = MovieDatabase.getDatabase(context).movieDao()
